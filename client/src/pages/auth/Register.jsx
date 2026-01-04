@@ -1,0 +1,124 @@
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { registerUser, clearError } from '../../store/slices/authSlice';
+import { User, Mail, Lock, Phone, Eye, EyeOff } from 'lucide-react';
+import toast from 'react-hot-toast';
+
+export default function Register() {
+    const [formData, setFormData] = useState({ name: '', email: '', password: '', phone: '' });
+    const [showPassword, setShowPassword] = useState(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { isLoading, error } = useSelector(state => state.auth);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        dispatch(clearError());
+
+        const result = await dispatch(registerUser(formData));
+        if (registerUser.fulfilled.match(result)) {
+            toast.success('Registration successful!');
+            navigate('/');
+        }
+    };
+
+    return (
+        <div className="min-h-screen flex items-center justify-center px-4 py-8">
+            <div className="card max-w-md w-full">
+                <div className="text-center mb-8">
+                    <h1 className="text-3xl font-bold">Create <span className="gradient-text">Account</span></h1>
+                    <p className="text-gray-400 mt-2">Join us for delicious meals</p>
+                </div>
+
+                {error && (
+                    <div className="bg-red-500/20 border border-red-500/50 text-red-300 px-4 py-3 rounded-lg mb-6">
+                        {error}
+                    </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                        <label className="block text-sm text-gray-400 mb-1">Name</label>
+                        <div className="relative">
+                            <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+                            <input
+                                type="text"
+                                required
+                                value={formData.name}
+                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                className="input pl-10 text-gray-900"
+                                style={{ color: '#111827' }}
+                                placeholder="Your name"
+                            />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm text-gray-400 mb-1">Email</label>
+                        <div className="relative">
+                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+                            <input
+                                type="email"
+                                required
+                                value={formData.email}
+                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                className="input pl-10 text-gray-900"
+                                style={{ color: '#111827' }}
+                                placeholder="your@email.com"
+                            />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm text-gray-400 mb-1">Phone</label>
+                        <div className="relative">
+                            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+                            <input
+                                type="tel"
+                                value={formData.phone}
+                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                className="input pl-10 text-gray-900"
+                                style={{ color: '#111827' }}
+                                placeholder="1234567890"
+                            />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm text-gray-400 mb-1">Password</label>
+                        <div className="relative">
+                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                required
+                                minLength={6}
+                                value={formData.password}
+                                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                                className="input pl-10 pr-10 text-gray-900"
+                                style={{ color: '#111827' }}
+                                placeholder="••••••••"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                            >
+                                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" disabled={isLoading} className="btn-primary w-full mt-6">
+                        {isLoading ? 'Creating account...' : 'Sign Up'}
+                    </button>
+                </form>
+
+                <p className="text-center text-gray-400 mt-6">
+                    Already have an account?{' '}
+                    <Link to="/login" className="text-purple-400 hover:underline">Login</Link>
+                </p>
+            </div>
+        </div>
+    );
+}
