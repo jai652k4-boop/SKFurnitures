@@ -22,7 +22,7 @@ import {
 import errorHandler from './middleware/errorHandler.js';
 
 // Connect to database
-connectDB();
+await connectDB();
 
 const app = express();
 
