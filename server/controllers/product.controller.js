@@ -1,6 +1,4 @@
 import { Product, Review } from '../models/index.js';
-import cloudinary from '../config/cloudinary.js';
-import fs from 'fs';
 
 // @desc    Get all products
 // @route   GET /api/products
@@ -89,23 +87,10 @@ export const createProduct = async (req, res) => {
 
         console.log('Extracted fields:', { name, description, price, category, stock, size });
 
-        // Handle image uploads
+        // Handle image uploads (files are already uploaded to Cloudinary via middleware)
         let imageUrls = [];
         if (req.files && req.files.length > 0) {
-            // Upload each image to cloudinary
-            imageUrls = await Promise.all(
-                req.files.map(async (file) => {
-                    const result = await cloudinary.uploader.upload(file.path, {
-                        folder: 'furniture-products',
-                        resource_type: 'image'
-                    });
-
-                    // Delete local file after upload
-                    fs.unlinkSync(file.path);
-
-                    return result.secure_url;
-                })
-            );
+            imageUrls = req.files.map(file => file.path);
             console.log('Uploaded images:', imageUrls);
         }
 
@@ -148,23 +133,10 @@ export const updateProduct = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Product not found' });
         }
 
-        // Handle image uploads
+        // Handle image uploads (files are already uploaded to Cloudinary via middleware)
         let imageUrls = existingProduct.images || [];
         if (req.files && req.files.length > 0) {
-            // Upload new images to cloudinary
-            imageUrls = await Promise.all(
-                req.files.map(async (file) => {
-                    const result = await cloudinary.uploader.upload(file.path, {
-                        folder: 'furniture-products',
-                        resource_type: 'image'
-                    });
-
-                    // Delete local file after upload
-                    fs.unlinkSync(file.path);
-
-                    return result.secure_url;
-                })
-            );
+            imageUrls = req.files.map(file => file.path);
         }
 
         const product = await Product.findByIdAndUpdate(
