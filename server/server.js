@@ -56,14 +56,12 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/payments', paymentRoutes);
 
 // Health check
-app.get('/api/health', (req, res) => {
-    res.json({ success: true, message: 'Server is running', time: new Date() });
+app.get('/', (req, res) => {
+    res.json({ success: true, message: 'Server is running'});
 });
 
-// Error handler
 app.use(errorHandler);
 
-// 404 handler
 app.use((req, res) => {
     res.status(404).json({ success: false, message: 'Route not found' });
 });
