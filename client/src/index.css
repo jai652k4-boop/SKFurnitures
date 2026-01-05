@@ -1,11 +1,16 @@
 @import "tailwindcss";
 
+/* ============================================
+   MODERN FURNITURE E-COMMERCE DESIGN SYSTEM
+   ============================================ */
+
 html, body {
   overflow-y: auto;       
   -ms-overflow-style: none; 
   scrollbar-width: none;   
 }
 
+/* CSS Custom Properties - Design Tokens */
 :root {
   /* Primary Colors - Warm Furniture Palette */
   --color-primary: #8B4513;

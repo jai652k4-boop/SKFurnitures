@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 import { fetchOrderById } from '../../store/slices/orderSlice';
 import StatusBadge from '../../components/common/StatusBadge';
-import { Package, Clock, CheckCircle, Truck, Home, ArrowLeft, MapPin, Phone } from 'lucide-react';
+import { Package, Clock, CheckCircle, Truck, Home, ArrowLeft, MapPin, Phone, Download, FileText } from 'lucide-react';
+import api from '../../services/api';
+import toast from 'react-hot-toast';
 
 export default function OrderTracking() {
     const { id } = useParams();
@@ -91,10 +93,10 @@ export default function OrderTracking() {
                                                 {/* Icon Circle */}
                                                 <div
                                                     className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${isCompleted
-                                                            ? 'bg-gradient-primary text-white shadow-lg shadow-purple-500/30'
-                                                            : isCurrent
-                                                                ? 'bg-secondary text-white shadow-lg animate-pulse'
-                                                                : 'bg-gray-100 text-gray-400'
+                                                        ? 'bg-gradient-primary text-white shadow-lg shadow-purple-500/30'
+                                                        : isCurrent
+                                                            ? 'bg-secondary text-white shadow-lg animate-pulse'
+                                                            : 'bg-gray-100 text-gray-400'
                                                         }`}
                                                 >
                                                     <StepIcon size={20} strokeWidth={2.5} />
@@ -136,23 +138,28 @@ export default function OrderTracking() {
                                 {order.items?.map((item, index) => (
                                     <div
                                         key={index}
-                                        className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover-lift"
+                                        className="flex items-start gap-4 p-5 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 hover:shadow-md transition-all duration-300"
                                     >
-                                        <div className="w-20 h-20 rounded-lg bg-white border border-gray-200 overflow-hidden flex-shrink-0">
+                                        <div className="w-28 h-28 rounded-xl bg-white border-2 border-gray-100 overflow-hidden flex-shrink-0 shadow-sm">
                                             <img
-                                                src={item.image || 'https://placehold.co/100x100'}
+                                                src={item.image || 'https://placehold.co/200x200'}
                                                 alt={item.name}
-                                                className="w-full h-full object-cover"
+                                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                                             />
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <h4 className="font-semibold text-gray-900 mb-1">{item.name}</h4>
-                                            <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
+                                            <h4 className="font-bold text-lg text-gray-900 mb-2">{item.name}</h4>
+                                            <div className="flex items-center gap-4 text-sm text-gray-600">
+                                                <span className="bg-gray-100 px-3 py-1 rounded-full">Qty: {item.quantity}</span>
+                                                <span className="text-gray-400">×</span>
+                                                <span className="font-medium">₹{item.price.toLocaleString()}</span>
+                                            </div>
                                         </div>
                                         <div className="text-right">
-                                            <p className="text-lg font-bold text-gray-900">
+                                            <p className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                                                 ₹{(item.price * item.quantity).toLocaleString()}
                                             </p>
+                                            <p className="text-xs text-gray-500 mt-1">Total</p>
                                         </div>
                                     </div>
                                 ))}
@@ -206,7 +213,7 @@ export default function OrderTracking() {
 
                             {/* Payment Status */}
                             {order.paidAmount && (
-                                <div className="bg-success/10 border border-success/20 rounded-xl p-3">
+                                <div className="bg-success/10 border border-success/20 rounded-xl p-3 mb-4">
                                     <div className="flex justify-between text-sm mb-1">
                                         <span className="text-gray-700">Paid Amount</span>
                                         <span className="font-bold text-success">₹{order.paidAmount.toLocaleString()}</span>
@@ -218,6 +225,19 @@ export default function OrderTracking() {
                                         </div>
                                     )}
                                 </div>
+                            )}
+
+                            {/* Invoice Download Button */}
+                            {(order.status === 'delivered' || order.status === 'completed') && (
+                                <button
+                                    onClick={() => {
+                                        toast.success('Invoice download feature coming soon!');
+                                    }}
+                                    className="w-full btn btn-secondary flex items-center justify-center gap-2"
+                                >
+                                    <FileText size={18} />
+                                    View Invoice
+                                </button>
                             )}
                         </div>
 

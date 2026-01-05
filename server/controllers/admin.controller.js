@@ -48,19 +48,23 @@ export const getAnalytics = async (req, res, next) => {
         // Total products
         const totalProducts = await Product.countDocuments();
 
-        // Total orders
-        const totalOrders = await Order.countDocuments();
+        // Total orders (exclude pending_payment)
+        const totalOrders = await Order.countDocuments({ status: { $ne: 'pending_payment' } });
 
         // Today's orders
         const todayStart = new Date();
         todayStart.setHours(0, 0, 0, 0);
         const todayOrders = await Order.countDocuments({
-            createdAt: { $gte: todayStart }
+            createdAt: { $gte: todayStart },
+            status: { $ne: 'pending_payment' }
         });
 
-        // Total revenue
+        // Pending orders count
+        const pendingOrders = await Order.countDocuments({ status: 'pending' });
+
+        // Total revenue (confirmed, shipped, delivered orders)
         const revenueResult = await Order.aggregate([
-            { $match: { status: { $in: ['confirmed', 'shipped', 'delivered'] } } },
+            { $match: { status: { $in: ['confirmed', 'shipped', 'delivered', 'completed'] } } },
             { $group: { _id: null, total: { $sum: '$totalAmount' } } }
         ]);
         const totalRevenue = revenueResult[0]?.total || 0;
@@ -69,7 +73,7 @@ export const getAnalytics = async (req, res, next) => {
         const todayRevenueResult = await Order.aggregate([
             {
                 $match: {
-                    status: { $in: ['confirmed', 'shipped', 'delivered'] },
+                    status: { $in: ['confirmed', 'shipped', 'delivered', 'completed'] },
                     createdAt: { $gte: todayStart }
                 }
             },
@@ -78,7 +82,7 @@ export const getAnalytics = async (req, res, next) => {
         const todayRevenue = todayRevenueResult[0]?.total || 0;
 
         // Recent orders
-        const recentOrders = await Order.find()
+        const recentOrders = await Order.find({ status: { $ne: 'pending_payment' } })
             .populate('user', 'name email')
             .populate('items.product', 'name')
             .sort('-createdAt')
@@ -86,11 +90,13 @@ export const getAnalytics = async (req, res, next) => {
 
         // Order status breakdown
         const orderStatusBreakdown = await Order.aggregate([
+            { $match: { status: { $ne: 'pending_payment' } } },
             { $group: { _id: '$status', count: { $sum: 1 } } }
         ]);
 
         // Top selling products
         const topProducts = await Order.aggregate([
+            { $match: { status: { $in: ['confirmed', 'shipped', 'delivered', 'completed'] } } },
             { $unwind: '$items' },
             {
                 $group: {
@@ -120,6 +126,21 @@ export const getAnalytics = async (req, res, next) => {
                     totalRevenue,
                     todayRevenue
                 },
+                orders: {
+                    total: totalOrders,
+                    today: todayOrders,
+                    pending: pendingOrders
+                },
+                products: {
+                    total: totalProducts
+                },
+                users: {
+                    total: totalUsers
+                },
+                revenue: {
+                    total: totalRevenue,
+                    today: todayRevenue
+                },
                 recentOrders,
                 orderStatusBreakdown,
                 topProducts: topProductsWithDetails
@@ -130,7 +151,7 @@ export const getAnalytics = async (req, res, next) => {
     }
 };
 
-// @desc    Get all users
+// @desc    Get all users with statistics
 // @route   GET /api/admin/users
 // @access  Admin
 export const getAllUsers = async (req, res, next) => {
@@ -154,11 +175,48 @@ export const getAllUsers = async (req, res, next) => {
 
         const total = await User.countDocuments(filter);
 
+        // Enhance each user with order statistics
+        const usersWithStats = await Promise.all(users.map(async (user) => {
+            // Get order statistics for this user
+            const orderStats = await Order.aggregate([
+                {
+                    $match: {
+                        user: user._id,
+                        status: { $ne: 'pending_payment' } // Exclude unpaid orders
+                    }
+                },
+                {
+                    $group: {
+                        _id: null,
+                        totalOrders: { $sum: 1 },
+                        totalSpent: { $sum: '$totalAmount' },
+                        lastOrderDate: { $max: '$createdAt' }
+                    }
+                }
+            ]);
+
+            const stats = orderStats[0] || { totalOrders: 0, totalSpent: 0, lastOrderDate: null };
+
+            return {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                phone: user.phone,
+                role: user.role,
+                createdAt: user.createdAt,
+                // Order statistics
+                totalOrders: stats.totalOrders,
+                totalSpent: stats.totalSpent,
+                averageOrderValue: stats.totalOrders > 0 ? stats.totalSpent / stats.totalOrders : 0,
+                lastOrderDate: stats.lastOrderDate
+            };
+        }));
+
         res.status(200).json({
             success: true,
             count: users.length,
             total,
-            data: users,
+            data: usersWithStats,
             pagination: {
                 page: Number(page),
                 limit: Number(limit),

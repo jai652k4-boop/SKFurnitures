@@ -99,8 +99,8 @@ export default function MyOrders() {
                                         key={filter.value}
                                         onClick={() => setFilterStatus(filter.value)}
                                         className={`px-4 py-2 rounded-lg font-medium transition ${filterStatus === filter.value
-                                                ? 'bg-secondary text-white'
-                                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                            ? 'bg-secondary text-white'
+                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                             }`}
                                     >
                                         {filter.label}
@@ -120,20 +120,20 @@ export default function MyOrders() {
                                 filteredOrders.map((order, index) => (
                                     <div
                                         key={order._id}
-                                        className="card bg-white hover-lift animate-fade-in"
+                                        className="card bg-white hover:shadow-xl transition-all duration-300 animate-fade-in border border-gray-200"
                                         style={{ animationDelay: `${index * 50}ms` }}
                                     >
                                         {/* Order Header */}
-                                        <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 pb-4 border-b border-gray-200">
-                                            <div className="flex items-center gap-3 mb-3 md:mb-0">
-                                                <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center">
-                                                    <Package className="text-white" size={24} />
+                                        <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 pb-5 border-b border-gray-200">
+                                            <div className="flex items-center gap-4 mb-3 md:mb-0">
+                                                <div className="w-14 h-14 rounded-xl bg-gradient-primary flex items-center justify-center shadow-lg shadow-purple-500/30">
+                                                    <Package className="text-white" size={28} />
                                                 </div>
                                                 <div>
-                                                    <h3 className="font-bold text-lg text-gray-900">
+                                                    <h3 className="font-bold text-xl text-gray-900">
                                                         Order #{order._id.slice(-8).toUpperCase()}
                                                     </h3>
-                                                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                                                    <div className="flex items-center gap-2 text-sm text-gray-500 mt-1">
                                                         <Calendar size={14} />
                                                         {new Date(order.createdAt).toLocaleDateString('en-IN', {
                                                             day: 'numeric',
@@ -157,25 +157,27 @@ export default function MyOrders() {
                                         </div>
 
                                         {/* Order Items Preview */}
-                                        <div className="mb-4">
-                                            <div className="flex items-center gap-2 mb-3">
-                                                <ShoppingBag size={16} className="text-gray-600" />
+                                        <div className="mb-6">
+                                            <div className="flex items-center gap-2 mb-4">
+                                                <ShoppingBag size={18} className="text-gray-600" />
                                                 <span className="text-sm font-semibold text-gray-700">
                                                     {order.items?.length} {order.items?.length === 1 ? 'Item' : 'Items'}
                                                 </span>
                                             </div>
-                                            <div className="flex gap-2 overflow-x-auto">
+                                            <div className="flex gap-3 overflow-x-auto pb-2">
                                                 {order.items?.slice(0, 4).map((item, idx) => (
-                                                    <div key={idx} className="flex-shrink-0">
-                                                        <img
-                                                            src={item.image || 'https://placehold.co/80x80'}
-                                                            alt={item.name}
-                                                            className="w-16 h-16 rounded-lg object-cover border border-gray-200"
-                                                        />
+                                                    <div key={idx} className="flex-shrink-0 group">
+                                                        <div className="w-20 h-20 rounded-lg overflow-hidden border-2 border-gray-200 group-hover:border-purple-400 transition-all duration-300">
+                                                            <img
+                                                                src={item.image || 'https://placehold.co/100x100'}
+                                                                alt={item.name}
+                                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                                            />
+                                                        </div>
                                                     </div>
                                                 ))}
                                                 {order.items?.length > 4 && (
-                                                    <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-semibold text-gray-600">
+                                                    <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center text-sm font-bold text-gray-600 border-2 border-dashed border-gray-300">
                                                         +{order.items.length - 4}
                                                     </div>
                                                 )}
@@ -183,15 +185,15 @@ export default function MyOrders() {
                                         </div>
 
                                         {/* Price Info */}
-                                        <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                                        <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-5 mb-5 border border-gray-200">
                                             <div className="flex justify-between items-center">
-                                                <span className="text-gray-600">Total Amount</span>
-                                                <span className="text-2xl font-bold text-gray-900">
+                                                <span className="text-gray-600 font-medium">Total Amount</span>
+                                                <span className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                                                     ₹{order.totalAmount.toLocaleString()}
                                                 </span>
                                             </div>
                                             {order.paymentStatus === 'partial' && (
-                                                <div className="flex justify-between items-center mt-2 pt-2 border-t border-gray-200">
+                                                <div className="flex justify-between items-center mt-3 pt-3 border-t border-gray-300">
                                                     <span className="text-sm text-gray-600">Remaining Amount</span>
                                                     <span className="text-lg font-bold text-warning">
                                                         ₹{order.remainingAmount.toLocaleString()}
@@ -204,17 +206,17 @@ export default function MyOrders() {
                                         <div className="flex flex-col sm:flex-row gap-3">
                                             <Link
                                                 to={`/orders/${order._id}`}
-                                                className="btn btn-secondary flex-1 justify-center flex items-center gap-2"
+                                                className="btn btn-secondary flex-1 justify-center flex items-center gap-2 font-semibold"
                                             >
                                                 View Details
-                                                <ArrowRight size={16} />
+                                                <ArrowRight size={18} />
                                             </Link>
                                             {order.paymentStatus === 'partial' && (
                                                 <button
                                                     onClick={() => handlePayRemaining(order._id)}
-                                                    className="btn btn-primary flex-1 justify-center flex items-center gap-2"
+                                                    className="btn btn-primary flex-1 justify-center flex items-center gap-2 font-semibold"
                                                 >
-                                                    <CreditCard size={16} />
+                                                    <CreditCard size={18} />
                                                     Pay ₹{order.remainingAmount.toLocaleString()}
                                                 </button>
                                             )}

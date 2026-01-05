@@ -57,17 +57,31 @@ export default function Navbar() {
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center gap-8">
                         <Link
+                            to="/"
+                            className="text-gray-700 hover:text-secondary font-medium transition relative group"
+                        >
+                            Home
+                            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all"></span>
+                        </Link>
+                        <Link
                             to="/menu"
                             className="text-gray-700 hover:text-secondary font-medium transition relative group"
                         >
-                            Products
+                            Collection
                             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all"></span>
                         </Link>
                         <Link
                             to="/location"
                             className="text-gray-700 hover:text-secondary font-medium transition relative group"
                         >
-                            Location
+                            About
+                            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all"></span>
+                        </Link>
+                        <Link
+                            to="/location"
+                            className="text-gray-700 hover:text-secondary font-medium transition relative group"
+                        >
+                            Contact
                             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all"></span>
                         </Link>
 
@@ -144,18 +158,32 @@ export default function Navbar() {
                 <div className="md:hidden glass border-t border-gray-200 animate-slide-up">
                     <div className="px-4 py-6 space-y-4">
                         <Link
+                            to="/"
+                            className="block py-2 text-gray-700 hover:text-secondary font-medium transition"
+                            onClick={() => setIsOpen(false)}
+                        >
+                            Home
+                        </Link>
+                        <Link
                             to="/menu"
                             className="block py-2 text-gray-700 hover:text-secondary font-medium transition"
                             onClick={() => setIsOpen(false)}
                         >
-                            Products
+                            Collection
                         </Link>
                         <Link
                             to="/location"
                             className="block py-2 text-gray-700 hover:text-secondary font-medium transition"
                             onClick={() => setIsOpen(false)}
                         >
-                            Location
+                            About
+                        </Link>
+                        <Link
+                            to="/location"
+                            className="block py-2 text-gray-700 hover:text-secondary font-medium transition"
+                            onClick={() => setIsOpen(false)}
+                        >
+                            Contact
                         </Link>
                         <Link
                             to="/cart"

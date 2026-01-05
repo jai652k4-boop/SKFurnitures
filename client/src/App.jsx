@@ -24,6 +24,7 @@ import Location from './pages/Location';
 import AdminDashboard from './pages/admin/Dashboard';
 import ManageMenu from './pages/admin/ManageMenu';
 import ManageOrders from './pages/admin/ManageOrders';
+import ManageUsers from './pages/admin/ManageUsers';
 
 function App() {
     const dispatch = useDispatch();
@@ -78,7 +79,8 @@ function App() {
                     <Route path="/admin" element={<ProtectedRoute role="admin"><AdminDashboard /></ProtectedRoute>} />
                     <Route path="/admin/menu" element={<ProtectedRoute role="admin"><ManageMenu /></ProtectedRoute>} />
                     <Route path="/admin/orders" element={<ProtectedRoute role="admin"><ManageOrders /></ProtectedRoute>} />
-                    
+                    <Route path="/admin/users" element={<ProtectedRoute role="admin"><ManageUsers /></ProtectedRoute>} />
+
                 </Routes>
             </main>
         </div>
