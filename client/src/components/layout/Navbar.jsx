@@ -2,8 +2,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useAuth, useClerk } from '@clerk/clerk-react';
 import { clearUser } from '../../store/slices/authSlice';
-import { ShoppingCart, User, LogOut, Menu, X, Bell, LayoutDashboard } from 'lucide-react';
-import { useState } from 'react';
+import { ShoppingCart, User, LogOut, Menu, X, LayoutDashboard, Sofa } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 export default function Navbar() {
     const { isSignedIn } = useAuth();
@@ -13,6 +13,16 @@ export default function Navbar() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+
+    // Handle scroll effect
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 20);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     const handleLogout = async () => {
         await signOut();
@@ -25,77 +35,182 @@ export default function Navbar() {
         return '/orders';
     };
 
+    const cartItemCount = items.reduce((total, item) => total + (item.quantity || 1), 0);
+
     return (
-        <nav className="fixed top-0 left-0 right-0 z-50 glass">
+        <nav className={`fixed top-0 left-0 right-0 z-50 transition ${scrolled ? 'glass shadow-lg' : 'bg-white/80 backdrop-blur-md'}`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
-                    <Link to="/" className="flex items-center space-x-2">
-                        <span className="text-2xl">🛍️</span>
-                        <span className="font-bold text-xl gradient-text">E-Shop</span>
+                    {/* Logo */}
+                    <Link to="/" className="flex items-center gap-2 group">
+                        <div className="bg-gradient-primary p-2 rounded-lg transition group-hover:scale-110">
+                            <Sofa className="text-white" size={24} />
+                        </div>
+                        <div className="flex flex-col">
+                            <span className="font-bold text-xl gradient-text-warm" style={{ fontFamily: 'Playfair Display, serif' }}>
+                                SK Furniture
+                            </span>
+                            <span className="text-xs text-gray-500 hidden sm:block">Premium Collection</span>
+                        </div>
                     </Link>
 
-                    {/* Desktop Nav */}
-                    <div className="hidden md:flex items-center space-x-6">
-                        <Link to="/menu" className="text-gray-700 hover:text-purple-600 transition font-medium">Products</Link>
-                        <Link to="/location" className="text-gray-700 hover:text-purple-600 transition font-medium">Location</Link>
-
-                        {/* Cart - Always visible */}
-                        <Link to="/cart" className="relative text-gray-700 hover:text-purple-600">
-                            <ShoppingCart size={22} />
-                            {items.length > 0 && (
-                                <span className="absolute -top-2 -right-2 bg-purple-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                                    {items.length}
-                                </span>
-                            )}
+                    {/* Desktop Navigation */}
+                    <div className="hidden md:flex items-center gap-8">
+                        <Link
+                            to="/menu"
+                            className="text-gray-700 hover:text-secondary font-medium transition relative group"
+                        >
+                            Products
+                            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all"></span>
+                        </Link>
+                        <Link
+                            to="/location"
+                            className="text-gray-700 hover:text-secondary font-medium transition relative group"
+                        >
+                            Location
+                            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all"></span>
                         </Link>
 
+                        {/* Cart Icon with Badge */}
+                        <Link to="/cart" className="relative group">
+                            <div className="p-2 rounded-lg hover:bg-gray-100 transition">
+                                <ShoppingCart className="text-gray-700 group-hover:text-secondary transition" size={22} />
+                                {cartItemCount > 0 && (
+                                    <span className="absolute -top-1 -right-1 bg-gradient-primary text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold animate-pulse">
+                                        {cartItemCount}
+                                    </span>
+                                )}
+                            </div>
+                        </Link>
+
+                        {/* User Menu */}
                         {isSignedIn ? (
-                            <>
-                                <Link to={getDashboardLink()} className="text-gray-700 hover:text-purple-600 transition flex items-center gap-1 font-medium">
-                                    {user?.role === 'admin' && <><LayoutDashboard size={18} /> Admin</>}
-                                    {user?.role === 'user' && 'My Orders'}
-                                    {!user?.role && 'Dashboard'}
+                            <div className="flex items-center gap-4 pl-4 border-l border-gray-200">
+                                <Link
+                                    to={getDashboardLink()}
+                                    className="text-gray-700 hover:text-secondary transition flex items-center gap-2 font-medium"
+                                >
+                                    {user?.role === 'admin' && (
+                                        <>
+                                            <LayoutDashboard size={18} />
+                                            <span>Admin</span>
+                                        </>
+                                    )}
+                                    {user?.role === 'user' && <span>My Orders</span>}
+                                    {!user?.role && <span>Dashboard</span>}
                                 </Link>
 
-                                <div className="flex items-center gap-3 pl-4 border-l border-gray-300">
-                                    <span className="text-sm text-gray-600 font-medium">{user?.name || 'User'}</span>
-                                    <button onClick={handleLogout} className="text-gray-700 hover:text-red-600">
+                                <div className="flex items-center gap-3">
+                                    <div className="hidden lg:flex items-center gap-2">
+                                        <div className="w-8 h-8 rounded-full bg-gradient-primary flex items-center justify-center text-white font-semibold">
+                                            {user?.name?.charAt(0) || 'U'}
+                                        </div>
+                                        <span className="text-sm text-gray-700 font-medium">{user?.name || 'User'}</span>
+                                    </div>
+                                    <button
+                                        onClick={handleLogout}
+                                        className="p-2 rounded-lg text-gray-700 hover:text-error hover:bg-red-50 transition"
+                                        title="Logout"
+                                    >
                                         <LogOut size={20} />
                                     </button>
                                 </div>
-                            </>
+                            </div>
                         ) : (
                             <div className="flex items-center gap-3">
-                                <Link to="/login" className="btn-secondary text-sm">Login</Link>
-                                <Link to="/register" className="btn-primary text-sm">Sign Up</Link>
+                                <Link to="/login" className="btn-secondary btn-sm">
+                                    Login
+                                </Link>
+                                <Link to="/register" className="btn-primary btn-sm">
+                                    Sign Up
+                                </Link>
                             </div>
                         )}
                     </div>
 
-                    {/* Mobile menu button */}
-                    <button className="md:hidden text-gray-800" onClick={() => setIsOpen(!isOpen)}>
+                    {/* Mobile Menu Button */}
+                    <button
+                        className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition"
+                        onClick={() => setIsOpen(!isOpen)}
+                        aria-label="Toggle menu"
+                    >
                         {isOpen ? <X size={24} /> : <Menu size={24} />}
                     </button>
                 </div>
             </div>
 
-            {/* Mobile menu */}
+            {/* Mobile Menu */}
             {isOpen && (
-                <div className="md:hidden glass border-t border-gray-300">
-                    <div className="px-4 py-4 space-y-3">
-                        <Link to="/menu" className="block text-gray-700 hover:text-purple-600 font-medium" onClick={() => setIsOpen(false)}>Menu</Link>
-                        <Link to="/location" className="block text-gray-700 hover:text-purple-600 font-medium" onClick={() => setIsOpen(false)}>Location</Link>
-                        <Link to="/cart" className="block text-gray-700 hover:text-purple-600 font-medium" onClick={() => setIsOpen(false)}>Cart ({items.length})</Link>
+                <div className="md:hidden glass border-t border-gray-200 animate-slide-up">
+                    <div className="px-4 py-6 space-y-4">
+                        <Link
+                            to="/menu"
+                            className="block py-2 text-gray-700 hover:text-secondary font-medium transition"
+                            onClick={() => setIsOpen(false)}
+                        >
+                            Products
+                        </Link>
+                        <Link
+                            to="/location"
+                            className="block py-2 text-gray-700 hover:text-secondary font-medium transition"
+                            onClick={() => setIsOpen(false)}
+                        >
+                            Location
+                        </Link>
+                        <Link
+                            to="/cart"
+                            className="block py-2 text-gray-700 hover:text-secondary font-medium transition"
+                            onClick={() => setIsOpen(false)}
+                        >
+                            Cart {cartItemCount > 0 && `(${cartItemCount})`}
+                        </Link>
+
                         {isSignedIn ? (
                             <>
-                                <Link to={getDashboardLink()} className="block text-gray-700 hover:text-purple-600 font-medium" onClick={() => setIsOpen(false)}>Dashboard</Link>
-                                <button onClick={() => { handleLogout(); setIsOpen(false); }} className="text-red-600 font-medium">Logout</button>
+                                {user?.name && (
+                                    <div className="py-2 border-t border-gray-200 mt-2 pt-4">
+                                        <div className="flex items-center gap-3 mb-3">
+                                            <div className="w-10 h-10 rounded-full bg-gradient-primary flex items-center justify-center text-white font-bold text-lg">
+                                                {user.name.charAt(0)}
+                                            </div>
+                                            <div>
+                                                <p className="font-semibold text-gray-900">{user.name}</p>
+                                                <p className="text-sm text-gray-500">{user.email}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                                <Link
+                                    to={getDashboardLink()}
+                                    className="block py-2 text-gray-700 hover:text-secondary font-medium transition"
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    {user?.role === 'admin' ? 'Admin Dashboard' : 'My Orders'}
+                                </Link>
+                                <button
+                                    onClick={() => { handleLogout(); setIsOpen(false); }}
+                                    className="w-full text-left py-2 text-error font-medium hover:bg-red-50 rounded transition px-2"
+                                >
+                                    Logout
+                                </button>
                             </>
                         ) : (
-                            <>
-                                <Link to="/login" className="block text-gray-700 font-medium" onClick={() => setIsOpen(false)}>Login</Link>
-                                <Link to="/register" className="block text-purple-600" onClick={() => setIsOpen(false)}>Sign Up</Link>
-                            </>
+                            <div className="space-y-2 border-t border-gray-200 mt-2 pt-4">
+                                <Link
+                                    to="/login"
+                                    className="block w-full btn-secondary text-center"
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    Login
+                                </Link>
+                                <Link
+                                    to="/register"
+                                    className="block w-full btn-primary text-center"
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    Sign Up
+                                </Link>
+                            </div>
                         )}
                     </div>
                 </div>

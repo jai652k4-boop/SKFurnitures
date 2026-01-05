@@ -1,4 +1,4 @@
-import { Review, Product } from '../models/index.js';
+import { Review, Product, Order } from '../models/index.js';
 
 // @desc    Create or update a review
 // @route   POST /api/reviews
@@ -12,6 +12,20 @@ export const createReview = async (req, res) => {
         const productExists = await Product.findById(product);
         if (!productExists) {
             return res.status(404).json({ success: false, message: 'Product not found' });
+        }
+
+        // Check if user has purchased this product
+        const hasPurchased = await Order.findOne({
+            user: userId,
+            'items.product': product,
+            status: { $in: ['confirmed', 'shipped', 'delivered'] }
+        });
+
+        if (!hasPurchased) {
+            return res.status(403).json({
+                success: false,
+                message: 'You must purchase this product before reviewing it'
+            });
         }
 
         // Check if review already exists
@@ -94,6 +108,43 @@ export const deleteReview = async (req, res) => {
         await updateProductRating(productId);
 
         res.json({ success: true, message: 'Review deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// @desc    Check if user can review a product
+// @route   GET /api/reviews/can-review/:productId
+// @access  Private
+export const checkCanReview = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const { productId } = req.params;
+
+        // Check if product exists
+        const productExists = await Product.findById(productId);
+        if (!productExists) {
+            return res.status(404).json({ success: false, message: 'Product not found' });
+        }
+
+        // Check if user has purchased this product
+        const hasPurchased = await Order.findOne({
+            user: userId,
+            'items.product': productId,
+            status: { $in: ['confirmed', 'shipped', 'delivered'] }
+        });
+
+        // Check if user already reviewed
+        const existingReview = await Review.findOne({ user: userId, product: productId });
+
+        res.json({
+            success: true,
+            data: {
+                canReview: !!hasPurchased,
+                hasReviewed: !!existingReview,
+                existingReview: existingReview || null
+            }
+        });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }

@@ -1,9 +1,21 @@
 import { SignIn } from '@clerk/clerk-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignInPage() {
+    const navigate = useNavigate();
+
     return (
-        <div className="min-h-screen flex items-center justify-center px-4">
-            <div className="w-full max-w-md">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-white to-pink-50 py-12 px-4">
+            <div className="max-w-md w-full">
+                <div className="text-center mb-8">
+                    <h1 className="text-4xl font-bold mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+                        Welcome <span className="gradient-text-warm">Back</span>
+                    </h1>
+                    <p className="text-gray-600">
+                        Sign in to access your furniture collection
+                    </p>
+                </div>
+
                 <SignIn
                     routing="path"
                     path="/login"
@@ -12,18 +24,7 @@ export default function SignInPage() {
                     appearance={{
                         elements: {
                             rootBox: 'mx-auto',
-                            card: 'bg-white border border-gray-200 shadow-xl',
-                            headerTitle: 'text-black',
-                            headerSubtitle: 'text-black',
-                            socialButtonsBlockButton: 'bg-white border-gray-300 text-black hover:bg-gray-50',
-                            dividerLine: 'bg-gray-300',
-                            dividerText: 'text-black',
-                            formFieldLabel: 'text-black',
-                            formFieldInput: 'bg-white border-gray-300 text-black placeholder:text-gray-500',
-                            formButtonPrimary: 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700',
-                            footerActionLink: 'text-purple-600 hover:text-purple-700',
-                            identityPreviewText: 'text-black',
-                            identityPreviewEditButton: 'text-purple-600',
+                            card: 'shadow-xl',
                         }
                     }}
                 />

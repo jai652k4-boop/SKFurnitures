@@ -1,27 +1,82 @@
+import { Clock, CheckCircle, Package, Truck, XCircle, AlertCircle } from 'lucide-react';
+
 export default function StatusBadge({ status }) {
-    const styles = {
-        pending: 'badge-pending',
-        confirmed: 'badge-confirmed',
-        accepted: 'badge-confirmed',
-        manufacturing: 'badge-cooking',
-        ready: 'badge-ready',
-        completed: 'badge-completed',
-        cancelled: 'badge-cancelled'
+    const statusConfig = {
+        pending: {
+            label: 'Pending',
+            className: 'badge-pending',
+            icon: Clock,
+            animate: true
+        },
+        confirmed: {
+            label: 'Confirmed',
+            className: 'badge-confirmed',
+            icon: CheckCircle,
+            animate: false
+        },
+        accepted: {
+            label: 'Accepted',
+            className: 'badge-confirmed',
+            icon: CheckCircle,
+            animate: false
+        },
+        processing: {
+            label: 'Processing',
+            className: 'badge-processing',
+            icon: Package,
+            animate: true
+        },
+        manufacturing: {
+            label: 'Manufacturing',
+            className: 'badge-processing',
+            icon: Package,
+            animate: true
+        },
+        shipped: {
+            label: 'Shipped',
+            className: 'badge-shipped',
+            icon: Truck,
+            animate: false
+        },
+        ready: {
+            label: 'Ready',
+            className: 'badge-shipped',
+            icon: CheckCircle,
+            animate: false
+        },
+        delivered: {
+            label: 'Delivered',
+            className: 'badge-delivered',
+            icon: CheckCircle,
+            animate: false
+        },
+        completed: {
+            label: 'Completed',
+            className: 'badge-completed',
+            icon: CheckCircle,
+            animate: false
+        },
+        cancelled: {
+            label: 'Cancelled',
+            className: 'badge-cancelled',
+            icon: XCircle,
+            animate: false
+        }
     };
 
-    const labels = {
-        pending: 'Pending',
-        confirmed: 'Confirmed',
-        accepted: 'Accepted',
-        manufacturing: 'Manufacturing',
-        ready: 'Ready',
-        completed: 'Completed',
-        cancelled: 'Cancelled'
+    const config = statusConfig[status] || {
+        label: status,
+        className: 'badge-info',
+        icon: AlertCircle,
+        animate: false
     };
+
+    const Icon = config.icon;
 
     return (
-        <span className={`badge ${styles[status] || 'bg-gray-500/20 text-gray-400'}`}>
-            {labels[status] || status}
+        <span className={`badge ${config.className} ${config.animate ? 'animate-pulse' : ''}`}>
+            <Icon size={14} />
+            {config.label}
         </span>
     );
 }

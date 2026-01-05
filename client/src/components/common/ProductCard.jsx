@@ -1,17 +1,24 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { addToCart, calculateTotals } from '../../store/slices/cartSlice';
-import { Plus, Star } from 'lucide-react';
+import { Plus, Star, Heart, Eye, ShoppingCart } from 'lucide-react';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 export default function ProductCard({ product }) {
     const dispatch = useDispatch();
     const { items } = useSelector(state => state.cart);
     const inCart = items.find(i => i.productId === product._id);
+    const [isHovered, setIsHovered] = useState(false);
 
-    const handleAddToCart = () => {
-        console.log('=== ADD TO CART CLICKED ===');
-        console.log('Product:', product);
-        console.log('Product ID:', product._id);
+    const handleAddToCart = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (product.stock === 0) {
+            toast.error('Product is out of stock');
+            return;
+        }
 
         const cartItem = {
             productId: product._id,
@@ -21,72 +28,140 @@ export default function ProductCard({ product }) {
             quantity: 1
         };
 
-        console.log('Adding to cart:', cartItem);
-
         dispatch(addToCart(cartItem));
-        console.log('Dispatched addToCart action');
-
         dispatch(calculateTotals());
-        console.log('Dispatched calculateTotals action');
-
         toast.success(`${product.name} added to cart!`);
     };
 
     return (
-        <div className="card group overflow-hidden">
-            <div className="relative h-48 -mx-6 -mt-6 mb-4 overflow-hidden">
-                <img
-                    src={product.images?.[0] || 'https://placehold.co/300x200?text=No+Image'}
-                    alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+        <Link
+            to={`/products/${product._id}`}
+            className="block group"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+        >
+            <div className="card overflow-hidden bg-white rounded-xl transition-all hover-lift">
+                {/* Image Container */}
+                <div className="relative h-64 -mx-6 -mt-6 mb-4 overflow-hidden bg-gray-100">
+                    <img
+                        src={product.images?.[0] || 'https://placehold.co/400x300?text=No+Image'}
+                        alt={product.name}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
 
-                {product.stock < 10 && product.stock > 0 && (
-                    <span className="absolute top-3 left-3 bg-orange-500 text-white px-2 py-1 rounded-full text-xs">
-                        Only {product.stock} left
-                    </span>
-                )}
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
 
-                {product.stock === 0 && (
-                    <span className="absolute top-3 left-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs">
-                        Out of Stock
-                    </span>
-                )}
+                    {/* Stock Badge */}
+                    {product.stock < 10 && product.stock > 0 && (
+                        <div className="absolute top-3 left-3 badge-warning animate-pulse">
+                            Only {product.stock} left
+                        </div>
+                    )}
 
-                <span className="absolute top-3 right-3 bg-purple-500/80 text-white px-2 py-1 rounded-full text-xs">
-                    {product.category}
-                </span>
-            </div>
+                    {product.stock === 0 && (
+                        <div className="absolute top-3 left-3 badge-error">
+                            Out of Stock
+                        </div>
+                    )}
 
-            <h3 className="font-semibold text-lg mb-1">{product.name}</h3>
-            <p className="text-gray-400 text-sm mb-3 line-clamp-2">{product.description}</p>
+                    {/* Category Badge */}
+                    <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">
+                        {product.category}
+                    </div>
 
-            {product.averageRating > 0 && (
-                <div className="flex items-center gap-1 text-yellow-400 text-sm mb-2">
-                    <Star size={14} fill="currentColor" />
-                    <span>{product.averageRating.toFixed(1)}</span>
-                    <span className="text-gray-500">({product.totalReviews})</span>
-                </div>
-            )}
+                    {/* Hover Actions */}
+                    <div className={`absolute inset-0 flex items-center justify-center gap-3 transition-all duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+                        <button
+                            className="bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition transform hover:scale-110"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }}
+                            title="Add to Wishlist"
+                        >
+                            <Heart size={20} className="text-gray-700" />
+                        </button>
+                        <Link
+                            to={`/products/${product._id}`}
+                            className="bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition transform hover:scale-110"
+                            onClick={(e) => e.stopPropagation()}
+                            title="Quick View"
+                        >
+                            <Eye size={20} className="text-gray-700" />
+                        </Link>
+                    </div>
 
-            <div className="flex items-center justify-between">
-                <div>
-                    <p className="text-2xl font-bold gradient-text">₹{product.price}</p>
-                    {product.size && (
-                        <p className="text-xs text-gray-500">Size: {product.size.toUpperCase()}</p>
+                    {/* In Cart Indicator */}
+                    {inCart && (
+                        <div className="absolute bottom-3 left-3 bg-success text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                            <ShoppingCart size={14} />
+                            In Cart ({inCart.quantity})
+                        </div>
                     )}
                 </div>
 
-                <button
-                    onClick={handleAddToCart}
-                    disabled={product.stock === 0}
-                    className={`btn-primary flex items-center gap-2 ${inCart ? 'bg-green-600' : ''} disabled:opacity-50 disabled:cursor-not-allowed`}
-                >
-                    <Plus size={18} />
-                    {product.stock === 0 ? 'Out' : inCart ? `(${inCart.quantity})` : 'Add'}
-                </button>
+                {/* Product Info */}
+                <div className="space-y-3">
+                    <h3 className="font-bold text-lg text-gray-900 line-clamp-1 group-hover:text-secondary transition">
+                        {product.name}
+                    </h3>
+
+                    <p className="text-gray-600 text-sm line-clamp-2 leading-relaxed">
+                        {product.description}
+                    </p>
+
+                    {/* Rating */}
+                    {product.averageRating > 0 && (
+                        <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-1">
+                                {[...Array(5)].map((_, i) => (
+                                    <Star
+                                        key={i}
+                                        size={14}
+                                        className={i < Math.floor(product.averageRating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}
+                                    />
+                                ))}
+                            </div>
+                            <span className="text-sm font-semibold text-gray-900">
+                                {product.averageRating.toFixed(1)}
+                            </span>
+                            <span className="text-sm text-gray-500">
+                                ({product.totalReviews || 0})
+                            </span>
+                        </div>
+                    )}
+
+                    {/* Price and Action */}
+                    <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+                        <div>
+                            <p className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                                ₹{product.price.toLocaleString()}
+                            </p>
+                            {product.size && (
+                                <p className="text-xs text-gray-500 mt-1">
+                                    Size: {product.size.toUpperCase()}
+                                </p>
+                            )}
+                        </div>
+
+                        <button
+                            onClick={handleAddToCart}
+                            disabled={product.stock === 0}
+                            className={`
+                                btn btn-primary btn-sm
+                                ${inCart ? 'bg-success hover:bg-success' : ''}
+                                ${product.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}
+                                shadow-md hover:shadow-lg
+                            `}
+                            title={product.stock === 0 ? 'Out of Stock' : inCart ? 'Add More' : 'Add to Cart'}
+                        >
+                            <Plus size={16} />
+                            {product.stock === 0 ? 'Sold Out' : 'Add'}
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
+        </Link>
     );
 }

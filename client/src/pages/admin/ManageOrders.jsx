@@ -66,63 +66,69 @@ export default function ManageOrders() {
         { value: 'cancelled', label: 'Cancelled' }
     ];
 
-    if (loading) return <div className="min-h-screen flex items-center justify-center"><div className="spinner"></div></div>;
+    if (loading) return (
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+            <div className="spinner spinner-lg"></div>
+        </div>
+    );
 
     return (
-        <div className="min-h-screen py-8 px-4 bg-gradient-to-br from-gray-50 to-gray-100">
-            <div className="max-w-7xl mx-auto">
-                {/* Header */}
-                <div className="mb-8">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div className="min-h-screen bg-gray-50">
+            {/* Header */}
+            <div className="bg-white border-b border-gray-200">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                         <div>
-                            <h1 className="text-4xl font-bold text-gray-800 mb-2">
-                                Order <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Management</span>
+                            <h1 className="text-4xl md:text-5xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>
+                                Order <span className="gradient-text-warm">Management</span>
                             </h1>
-                            <p className="text-gray-600">Manage and track all customer orders</p>
+                            <p className="text-gray-600 mt-2">Manage and track all customer orders</p>
                         </div>
                         <button
                             onClick={fetchData}
-                            className="bg-white hover:bg-gray-50 text-gray-700 px-6 py-3 rounded-xl flex items-center gap-2 shadow-md hover:shadow-lg transition-all duration-200 border border-gray-200"
+                            className="btn btn-outlined flex items-center gap-2"
                         >
                             <RefreshCw size={18} /> Refresh
                         </button>
                     </div>
 
                     {/* Stats Cards */}
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-                        <div className="bg-white rounded-xl p-4 shadow-md border border-gray-200">
-                            <div className="text-2xl font-bold text-gray-800">{orders.length}</div>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
+                            <div className="text-2xl font-bold text-gray-900">{orders.length}</div>
                             <div className="text-sm text-gray-600">Total Orders</div>
                         </div>
-                        <div className="bg-white rounded-xl p-4 shadow-md border border-gray-200">
-                            <div className="text-2xl font-bold text-blue-600">{orders.filter(o => o.status === 'confirmed').length}</div>
+                        <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
+                            <div className="text-2xl font-bold text-secondary">{orders.filter(o => o.status === 'confirmed').length}</div>
                             <div className="text-sm text-gray-600">Confirmed</div>
                         </div>
-                        <div className="bg-white rounded-xl p-4 shadow-md border border-gray-200">
-                            <div className="text-2xl font-bold text-purple-600">{orders.filter(o => o.status === 'manufacturing').length}</div>
-                            <div className="text-sm text-gray-600">Manufacturing</div>
+                        <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
+                            <div className="text-2xl font-bold text-warning">{orders.filter(o => o.status === 'manufacturing').length}</div>
+                            <div className="text-sm text-gray-600">Processing</div>
                         </div>
-                        <div className="bg-white rounded-xl p-4 shadow-md border border-gray-200">
-                            <div className="text-2xl font-bold text-green-600">{orders.filter(o => ['delivered', 'completed'].includes(o.status)).length}</div>
+                        <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
+                            <div className="text-2xl font-bold text-success">{orders.filter(o => ['delivered', 'completed'].includes(o.status)).length}</div>
                             <div className="text-sm text-gray-600">Completed</div>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    {/* Filters */}
-                    <div className="flex gap-2 flex-wrap">
-                        {filterOptions.map(option => (
-                            <button
-                                key={option.value}
-                                onClick={() => setFilter(option.value)}
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${filter === option.value
-                                        ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                                        : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
-                                    }`}
-                            >
-                                {option.label}
-                            </button>
-                        ))}
-                    </div>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                {/* Filters */}
+                <div className="flex gap-2 flex-wrap mb-6">
+                    {filterOptions.map(option => (
+                        <button
+                            key={option.value}
+                            onClick={() => setFilter(option.value)}
+                            className={`px-4 py-2 rounded-lg font-medium transition ${filter === option.value
+                                    ? 'bg-secondary text-white'
+                                    : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                                }`}
+                        >
+                            {option.label}
+                        </button>
+                    ))}
                 </div>
 
                 {/* Orders List */}

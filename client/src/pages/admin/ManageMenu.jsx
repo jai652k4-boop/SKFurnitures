@@ -96,80 +96,126 @@ export default function ManageMenu() {
         }
     };
 
-    if (loading) return <div className="min-h-screen flex items-center justify-center"><div className="spinner"></div></div>;
+    if (loading) return (
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+            <div className="spinner spinner-lg"></div>
+        </div>
+    );
 
     return (
-        <div className="min-h-screen py-8 px-4">
-            <div className="max-w-7xl mx-auto">
-                <div className="flex items-center justify-between mb-8">
-                    <h1 className="text-3xl font-bold">Manage <span className="gradient-text">Products</span></h1>
-                    <button onClick={() => { resetForm(); setShowModal(true); }} className="btn-primary flex items-center gap-2">
-                        <Plus size={18} /> Add Item
-                    </button>
-                </div>
-
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {products.map(product => (
-                        <div key={product._id} className="card">
-                            <img src={product.images?.[0] || 'https://placehold.co/200x200?text=No+Image'} alt={product.name} className="w-full h-32 object-cover rounded-lg mb-3" />
-                            <h3 className="font-semibold">{product.name}</h3>
-                            <p className="text-gray-400 text-sm line-clamp-2">{product.description}</p>
-                            <p className="text-xl font-bold gradient-text mt-2">₹{product.price}</p>
-                            <div className="flex gap-2 mt-3">
-                                <button onClick={() => handleEdit(product)} className="btn-secondary text-xs flex-1 flex items-center justify-center gap-1">
-                                    <Edit2 size={14} /> Edit
-                                </button>
-                                <button onClick={() => handleDelete(product._id)} className="text-red-400 border border-red-400/50 rounded-lg px-3 py-1 text-xs">
-                                    <Trash2 size={14} />
-                                </button>
-                            </div>
+        <div className="min-h-screen bg-gray-50">
+            {/* Header */}
+            <div className="bg-white border-b border-gray-200">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <h1 className="text-4xl md:text-5xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>
+                                Manage <span className="gradient-text-warm">Products</span>
+                            </h1>
+                            <p className="text-gray-600 mt-2">{products.length} Total Products</p>
                         </div>
-                    ))}
+                        <button
+                            onClick={() => { resetForm(); setShowModal(true); }}
+                            className="btn btn-primary flex items-center gap-2"
+                        >
+                            <Plus size={18} /> Add Product
+                        </button>
+                    </div>
                 </div>
+            </div>
 
-                {/* Modal */}
-                {showModal && (
-                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
-                        <div className="card max-w-md w-full my-8">
-                            <div className="flex items-center justify-between mb-4">
-                                <h2 className="text-xl font-bold">{editId ? 'Edit' : 'Add'} Product</h2>
-                                <button onClick={() => setShowModal(false)}><X size={20} /></button>
-                            </div>
-                            <form onSubmit={handleSubmit} className="space-y-4">
-                                <input type="text" placeholder="Name" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="input" />
-                                <textarea placeholder="Description" required value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="input" rows={2} />
-                                <div className="grid grid-cols-2 gap-4">
-                                    <input type="number" placeholder="Price" required value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} className="input" />
-                                    <input type="number" placeholder="Stock Quantity" required value={form.stock} onChange={(e) => setForm({ ...form, stock: e.target.value })} className="input" />
-                                </div>
-                                <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="input">
-                                    {categories.map(c => <option key={c} value={c}>{c}</option>)}
-                                </select>
-                                {editId && currentImageUrl && !image && (
-                                    <div className="mb-2">
-                                        <p className="text-sm text-gray-400 mb-1">Current Image:</p>
-                                        <img src={currentImageUrl} alt="Current" className="w-32 h-32 object-cover rounded-lg" />
-                                        <p className="text-xs text-gray-500 mt-1">Upload a new image to replace it</p>
-                                    </div>
-                                )}
-                                <div>
-                                    <label className="block text-sm text-gray-300 mb-1">
-                                        {editId ? 'Upload New Image (Optional)' : 'Upload Image (Optional)'}
-                                    </label>
-                                    <input
-                                        ref={fileInputRef}
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={(e) => setImage(e.target.files[0])}
-                                        className="input"
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                {products.length === 0 ? (
+                    <div className="card bg-white text-center py-16">
+                        <Plus className="mx-auto text-gray-400 mb-4" size={64} />
+                        <h3 className="text-xl font-bold text-gray-900 mb-2">No Products Yet</h3>
+                        <p className="text-gray-600 mb-6">Start by adding your first product</p>
+                        <button
+                            onClick={() => { resetForm(); setShowModal(true); }}
+                            className="btn btn-primary inline-flex items-center gap-2"
+                        >
+                            <Plus size={18} /> Add Your First Product
+                        </button>
+                    </div>
+                ) : (
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {products.map(product => (
+                            <div key={product._id} className="card bg-white hover-lift">
+                                <div className="aspect-square rounded-xl overflow-hidden bg-gray-50 mb-4">
+                                    <img
+                                        src={product.images?.[0] || 'https://placehold.co/400x400?text=No+Image'}
+                                        alt={product.name}
+                                        className="w-full h-full object-contain p-4"
                                     />
                                 </div>
-                                <button type="submit" className="btn-primary w-full">{editId ? 'Update' : 'Create'}</button>
-                            </form>
-                        </div>
+                                <h3 className="font-bold text-lg text-gray-900 mb-1 line-clamp-1">{product.name}</h3>
+                                <p className="text-gray-600 text-sm line-clamp-2 mb-3">{product.description}</p>
+                                <div className="flex items-center justify-between mb-3">
+                                    <span className="text-2xl font-bold text-gray-900">₹{product.price.toLocaleString()}</span>
+                                    <span className="badge badge-info text-xs">{product.stock} in stock</span>
+                                </div>
+                                <div className="flex gap-2">
+                                    <button
+                                        onClick={() => handleEdit(product)}
+                                        className="btn btn-secondary text-sm flex-1 flex items-center justify-center gap-1"
+                                    >
+                                        <Edit2 size={14} /> Edit
+                                    </button>
+                                    <button
+                                        onClick={() => handleDelete(product._id)}
+                                        className="btn btn-outlined border-error text-error hover:bg-red-50 text-sm px-4"
+                                    >
+                                        <Trash2 size={14} />
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 )}
             </div>
+
+            {/* Modal */}
+            {showModal && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
+                    <div className="card max-w-md w-full my-8">
+                        <div className="flex items-center justify-between mb-4">
+                            <h2 className="text-xl font-bold">{editId ? 'Edit' : 'Add'} Product</h2>
+                            <button onClick={() => setShowModal(false)}><X size={20} /></button>
+                        </div>
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <input type="text" placeholder="Name" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="input" />
+                            <textarea placeholder="Description" required value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="input" rows={2} />
+                            <div className="grid grid-cols-2 gap-4">
+                                <input type="number" placeholder="Price" required value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} className="input" />
+                                <input type="number" placeholder="Stock Quantity" required value={form.stock} onChange={(e) => setForm({ ...form, stock: e.target.value })} className="input" />
+                            </div>
+                            <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="input">
+                                {categories.map(c => <option key={c} value={c}>{c}</option>)}
+                            </select>
+                            {editId && currentImageUrl && !image && (
+                                <div className="mb-2">
+                                    <p className="text-sm text-gray-400 mb-1">Current Image:</p>
+                                    <img src={currentImageUrl} alt="Current" className="w-32 h-32 object-cover rounded-lg" />
+                                    <p className="text-xs text-gray-500 mt-1">Upload a new image to replace it</p>
+                                </div>
+                            )}
+                            <div>
+                                <label className="block text-sm text-gray-300 mb-1">
+                                    {editId ? 'Upload New Image (Optional)' : 'Upload Image (Optional)'}
+                                </label>
+                                <input
+                                    ref={fileInputRef}
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => setImage(e.target.files[0])}
+                                    className="input"
+                                />
+                            </div>
+                            <button type="submit" className="btn-primary w-full">{editId ? 'Update' : 'Create'}</button>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@clerk/clerk-react';
 import { updateQuantity, removeFromCart, clearCart, calculateTotals } from '../store/slices/cartSlice';
-import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
+import { Minus, Plus, Trash2, ShoppingBag, ArrowRight, ShoppingCart, Tag, Truck, Shield } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 export default function Cart() {
     const dispatch = useDispatch();
@@ -20,108 +21,220 @@ export default function Cart() {
         dispatch(updateQuantity({ productId, quantity: newQty }));
     };
 
+    const handleRemoveItem = (productId, itemName) => {
+        dispatch(removeFromCart(productId));
+        toast.success(`${itemName} removed from cart`);
+    };
+
+    const handleClearCart = () => {
+        if (window.confirm('Are you sure you want to clear your cart?')) {
+            dispatch(clearCart());
+            toast.success('Cart cleared');
+        }
+    };
+
     const handleCheckout = () => {
         if (!isSignedIn) {
+            toast.error('Please login to continue');
             navigate('/login');
             return;
         }
         navigate('/checkout');
     };
 
+    // Empty Cart State
     if (items.length === 0) {
         return (
-            <div className="min-h-screen flex flex-col items-center justify-center px-4">
-                <ShoppingBag size={80} className="text-gray-600 mb-4" />
-                <h2 className="text-2xl font-bold mb-2">Your cart is empty</h2>
-                <p className="text-gray-600 mb-6">Add some products from our collection!</p>
-                <Link to="/menu" className="btn-primary">Browse Products</Link>
+            <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-gray-50">
+                <div className="max-w-md w-full text-center">
+                    <div className="w-32 h-32 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+                        <ShoppingCart className="text-gray-400" size={64} />
+                    </div>
+                    <h2 className="text-3xl font-bold mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+                        Your Cart is Empty
+                    </h2>
+                    <p className="text-gray-600 mb-8 text-lg">
+                        Looks like you haven't added any furniture yet. Explore our collection to find pieces you'll love!
+                    </p>
+                    <Link to="/menu" className="btn btn-primary btn-lg inline-flex items-center gap-2">
+                        <ShoppingBag size={20} />
+                        Browse Collection
+                    </Link>
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen py-8 px-4">
-            <div className="max-w-4xl mx-auto">
-                <div className="flex items-center justify-between mb-8">
-                    <h1 className="text-3xl font-bold">Your <span className="gradient-text">Cart</span></h1>
-                    <button onClick={() => dispatch(clearCart())} className="text-red-400 text-sm flex items-center gap-1 hover:underline">
-                        <Trash2 size={16} /> Clear All
-                    </button>
+        <div className="min-h-screen bg-gray-50 py-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* Header */}
+                <div className="mb-8">
+                    <div className="flex items-center justify-between mb-4">
+                        <div>
+                            <h1 className="text-4xl font-bold mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
+                                Shopping <span className="gradient-text-warm">Cart</span>
+                            </h1>
+                            <p className="text-gray-600">
+                                {totalQuantity} {totalQuantity === 1 ? 'item' : 'items'} in your cart
+                            </p>
+                        </div>
+                        <button
+                            onClick={handleClearCart}
+                            className="btn btn-outlined btn-sm text-error border-error hover:bg-red-50 flex items-center gap-2"
+                        >
+                            <Trash2 size={16} />
+                            Clear Cart
+                        </button>
+                    </div>
                 </div>
 
-                {/* Cart Items */}
-                <div className="space-y-4 mb-8">
-                    {items.map(item => (
-                        <div key={item.productId} className="card flex gap-4">
-                            <img
-                                src={item.image || 'https://placehold.co/100x100?text=No+Image'}
-                                alt={item.name}
-                                className="w-24 h-24 object-cover rounded-lg"
-                            />
-                            <div className="flex-1">
-                                <h3 className="font-semibold text-lg">{item.name}</h3>
-                                <p className="text-gray-600 text-sm">₹{item.price} each</p>
-                                <div className="flex items-center gap-3 mt-2">
-                                    <button
-                                        onClick={() => handleQuantityChange(item.productId, item.quantity - 1)}
-                                        className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center hover:bg-white/20"
-                                    >
-                                        <Minus size={16} />
-                                    </button>
-                                    <span className="font-medium w-8 text-center">{item.quantity}</span>
-                                    <button
-                                        onClick={() => handleQuantityChange(item.productId, item.quantity + 1)}
-                                        className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center hover:bg-white/20"
-                                    >
-                                        <Plus size={16} />
-                                    </button>
+                <div className="grid lg:grid-cols-3 gap-8">
+                    {/* Cart Items */}
+                    <div className="lg:col-span-2 space-y-4">
+                        {items.map((item, index) => (
+                            <div
+                                key={item.productId}
+                                className="card flex flex-col sm:flex-row gap-4 bg-white animate-fade-in hover-lift"
+                                style={{ animationDelay: `${index * 50}ms` }}
+                            >
+                                {/* Product Image */}
+                                <Link
+                                    to={`/products/${item.productId}`}
+                                    className="w-full sm:w-32 h-32 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0 image-zoom-hover"
+                                >
+                                    <img
+                                        src={item.image || 'https://placehold.co/200x200?text=No+Image'}
+                                        alt={item.name}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </Link>
+
+                                {/* Product Info */}
+                                <div className="flex-1 min-w-0">
+                                    <Link to={`/products/${item.productId}`} className="block mb-2">
+                                        <h3 className="font-bold text-lg text-gray-900 hover:text-secondary transition line-clamp-1">
+                                            {item.name}
+                                        </h3>
+                                    </Link>
+                                    <p className="text-gray-600 text-sm mb-3">
+                                        ₹{item.price.toLocaleString()} × {item.quantity}
+                                    </p>
+
+                                    {/* Quantity Controls */}
+                                    <div className="flex items-center gap-3">
+                                        <div className="inline-flex items-center border border-gray-300 rounded-lg">
+                                            <button
+                                                onClick={() => handleQuantityChange(item.productId, item.quantity - 1)}
+                                                className="w-10 h-10 flex items-center justify-center hover:bg-gray-50 transition rounded-l-lg"
+                                                disabled={item.quantity <= 1}
+                                            >
+                                                <Minus size={16} className={item.quantity <= 1 ? 'text-gray-300' : 'text-gray-700'} />
+                                            </button>
+                                            <span className="w-12 h-10 flex items-center justify-center font-semibold text-gray-900 border-x border-gray-300">
+                                                {item.quantity}
+                                            </span>
+                                            <button
+                                                onClick={() => handleQuantityChange(item.productId, item.quantity + 1)}
+                                                className="w-10 h-10 flex items-center justify-center hover:bg-gray-50 transition rounded-r-lg"
+                                            >
+                                                <Plus size={16} className="text-gray-700" />
+                                            </button>
+                                        </div>
+
+                                        <button
+                                            onClick={() => handleRemoveItem(item.productId, item.name)}
+                                            className="text-error hover:bg-red-50 p-2 rounded-lg transition"
+                                            title="Remove item"
+                                        >
+                                            <Trash2 size={18} />
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Price */}
+                                <div className="text-right sm:text-left flex sm:flex-col justify-between sm:justify-start items-end sm:items-end">
+                                    <p className="text-2xl font-bold text-gray-900">
+                                        ₹{(item.price * item.quantity).toLocaleString()}
+                                    </p>
                                 </div>
                             </div>
-                            <div className="text-right">
-                                <p className="text-xl font-bold gradient-text">₹{item.price * item.quantity}</p>
-                                <button
-                                    onClick={() => dispatch(removeFromCart(item.productId))}
-                                    className="text-red-400 text-sm mt-2 hover:underline"
-                                >
-                                    Remove
-                                </button>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
 
-                {/* Summary */}
-                <div className="card">
-                    <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
-
-                    {deliveryCharge === 0 && subtotal > 0 && (
-                        <div className="bg-green-500/20 text-green-300 p-3 rounded-lg mb-4 text-sm">
-                            🎉 Free Delivery on orders over ₹999!
-                        </div>
-                    )}
-
-                    <div className="space-y-2 text-sm">
-                        <div className="flex justify-between">
-                            <span className="text-gray-600">Items ({totalQuantity})</span>
-                            <span>₹{subtotal}</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-gray-600">Delivery Charge</span>
-                            <span>{deliveryCharge === 0 ? 'FREE' : `₹${deliveryCharge}`}</span>
-                        </div>
-                        <div className="border-t border-gray-700 pt-2 flex justify-between font-bold text-lg">
-                            <span>Total</span>
-                            <span className="gradient-text">₹{totalAmount}</span>
-                        </div>
+                        {/* Continue Shopping */}
+                        <Link
+                            to="/menu"
+                            className="btn btn-outlined w-full flex items-center justify-center gap-2"
+                        >
+                            <ArrowRight size={18} className="rotate-180" />
+                            Continue Shopping
+                        </Link>
                     </div>
 
-                    <button onClick={handleCheckout} className="btn-primary w-full mt-6 flex items-center justify-center gap-2">
-                        Proceed to Checkout <ArrowRight size={18} />
-                    </button>
+                    {/* Order Summary - Sticky on Desktop */}
+                    <div className="lg:col-span-1">
+                        <div className="card bg-white sticky top-24">
+                            <h3 className="text-2xl font-bold mb-6" style={{ fontFamily: 'Playfair Display, serif' }}>
+                                Order Summary
+                            </h3>
 
-                    <p className="text-center text-gray-500 text-xs mt-3">
-                        Secure checkout with multiple payment options
-                    </p>
+                            {/* Free Delivery Badge */}
+                            {deliveryCharge === 0 && subtotal > 0 && (
+                                <div className="bg-success/10 border border-success/20 text-success p-4 rounded-lg mb-6 flex items-start gap-3">
+                                    <Truck size={20} className="flex-shrink-0 mt-0.5" />
+                                    <div>
+                                        <p className="font-semibold mb-1">Free Delivery!</p>
+                                        <p className="text-sm">Your order qualifies for free shipping</p>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Price Breakdown */}
+                            <div className="space-y-4 mb-6">
+                                <div className="flex justify-between text-gray-700">
+                                    <span>Subtotal ({totalQuantity} items)</span>
+                                    <span className="font-semibold">₹{subtotal.toLocaleString()}</span>
+                                </div>
+                                <div className="flex justify-between text-gray-700">
+                                    <div className="flex items-center gap-2">
+                                        <Truck size={16} />
+                                        <span>Delivery</span>
+                                    </div>
+                                    <span className={`font-semibold ${deliveryCharge === 0 ? 'text-success' : ''}`}>
+                                        {deliveryCharge === 0 ? 'FREE' : `₹${deliveryCharge.toLocaleString()}`}
+                                    </span>
+                                </div>
+
+                                {subtotal < 10000 && deliveryCharge > 0 && (
+                                    <div className="bg-warning/10 border border-warning/20 text-warning p-3 rounded-lg text-sm flex items-start gap-2">
+                                        <Tag size={16} className="flex-shrink-0 mt-0.5" />
+                                        <p>Add ₹{(10000 - subtotal).toLocaleString()} more for free delivery</p>
+                                    </div>
+                                )}
+
+                                <div className="border-t border-gray-200 pt-4 flex justify-between items-center">
+                                    <span className="text-lg font-bold text-gray-900">Total Amount</span>
+                                    <span className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                                        ₹{totalAmount.toLocaleString()}
+                                    </span>
+                                </div>
+                            </div>
+
+                            {/* Checkout Button */}
+                            <button
+                                onClick={handleCheckout}
+                                className="btn btn-primary w-full btn-lg flex items-center justify-center gap-2 mb-4"
+                            >
+                                Proceed to Checkout
+                                <ArrowRight size={20} />
+                            </button>
+
+                            <p className="text-center text-gray-500 text-sm flex items-center justify-center gap-2">
+                                <Shield size={14} />
+                                Secure checkout powered by Stripe
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

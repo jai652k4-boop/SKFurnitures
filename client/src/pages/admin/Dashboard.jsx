@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
-import { LayoutDashboard, UtensilsCrossed, ShoppingBag, Users, DollarSign, TrendingUp, Package } from 'lucide-react';
+import LoadingSkeleton from '../../components/common/LoadingSkeleton';
+import StatusBadge from '../../components/common/StatusBadge';
+import { ShoppingBag, Package, DollarSign, TrendingUp, Users, Clock, CheckCircle, XCircle } from 'lucide-react';
 
 export default function AdminDashboard() {
     const [analytics, setAnalytics] = useState(null);
@@ -13,7 +15,7 @@ export default function AdminDashboard() {
                 const { data } = await api.get('/admin/analytics');
                 setAnalytics(data.data);
             } catch (err) {
-                console.error(err);
+                console.error('Failed to fetch analytics:', err);
             }
             setLoading(false);
         };
@@ -21,80 +23,226 @@ export default function AdminDashboard() {
     }, []);
 
     if (loading) {
-        return <div className="min-h-screen flex items-center justify-center"><div className="spinner"></div></div>;
+        return (
+            <div className="min-h-screen bg-gray-50 py-8 px-4">
+                <div className="max-w-7xl mx-auto">
+                    <div className="skeleton h-10 w-64 mb-8"></div>
+                    <div className="grid md:grid-cols-4 gap-6 mb-8">
+                        <LoadingSkeleton type="card" count={4} />
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     const stats = [
-        { label: 'Total Orders', value: analytics?.orders?.total || 0, icon: <ShoppingBag />, color: 'purple' },
-        { label: 'Today Orders', value: analytics?.orders?.today || 0, icon: <TrendingUp />, color: 'blue' },
-        { label: 'Pending', value: analytics?.orders?.pending || 0, icon: <LayoutDashboard />, color: 'yellow' },
-        { label: 'Revenue', value: `₹${analytics?.revenue?.total || 0}`, icon: <DollarSign />, color: 'green' }
+        {
+            label: 'Total Orders',
+            value: analytics?.orders?.total || 0,
+            icon: ShoppingBag,
+            color: 'purple',
+            bgColor: 'bg-purple-100',
+            textColor: 'text-purple-600'
+        },
+        {
+            label: 'Today Orders',
+            value: analytics?.orders?.today || 0,
+            icon: TrendingUp,
+            color: 'blue',
+            bgColor: 'bg-blue-100',
+            textColor: 'text-blue-600'
+        },
+        {
+            label: 'Pending Orders',
+            value: analytics?.orders?.pending || 0,
+            icon: Clock,
+            color: 'yellow',
+            bgColor: 'bg-yellow-100',
+            textColor: 'text-yellow-600'
+        },
+        {
+            label: 'Total Revenue',
+            value: `₹${(analytics?.revenue?.total || 0).toLocaleString()}`,
+            icon: DollarSign,
+            color: 'green',
+            bgColor: 'bg-green-100',
+            textColor: 'text-green-600'
+        }
+    ];
+
+    const quickLinks = [
+        {
+            title: 'Manage Orders',
+            description: 'View and update order status',
+            icon: ShoppingBag,
+            link: '/admin/orders',
+            color: 'purple',
+            count: analytics?.orders?.pending || 0,
+            countLabel: 'Pending'
+        },
+        {
+            title: 'Manage Products',
+            description: 'Add, edit, and manage products',
+            icon: Package,
+            link: '/admin/menu',
+            color: 'green',
+            count: analytics?.products?.total || 0,
+            countLabel: 'Products'
+        },
+        {
+            title: 'Users',
+            description: 'View customer information',
+            icon: Users,
+            link: '/admin/users',
+            color: 'blue',
+            count: analytics?.users?.total || 0,
+            countLabel: 'Users'
+        }
     ];
 
     return (
-        <div className="min-h-screen py-8 px-4">
-            <div className="max-w-7xl mx-auto">
-                <h1 className="text-3xl font-bold mb-8">Admin <span className="gradient-text">Dashboard</span></h1>
+        <div className="min-h-screen bg-gray-50">
+            {/* Header */}
+            <div className="bg-white border-b border-gray-200">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    <h1 className="text-4xl md:text-5xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>
+                        Admin <span className="gradient-text-warm">Dashboard</span>
+                    </h1>
+                    <p className="text-gray-600 mt-2">Monitor your furniture store performance</p>
+                </div>
+            </div>
 
-                {/* Stats */}
-                <div className="grid md:grid-cols-4 gap-6 mb-8">
-                    {stats.map((stat, i) => (
-                        <div key={i} className="card">
-                            <div className={`w-10 h-10 rounded-lg bg-${stat.color}-500/20 text-${stat.color}-400 flex items-center justify-center mb-3`}>
-                                {stat.icon}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                {/* Stats Cards */}
+                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    {stats.map((stat, index) => {
+                        const Icon = stat.icon;
+                        return (
+                            <div
+                                key={index}
+                                className="card bg-white hover-lift animate-fade-in"
+                                style={{ animationDelay: `${index * 50}ms` }}
+                            >
+                                <div className="flex items-start justify-between mb-4">
+                                    <div className={`w-14 h-14 rounded-xl ${stat.bgColor} flex items-center justify-center`}>
+                                        <Icon className={stat.textColor} size={28} />
+                                    </div>
+                                </div>
+                                <p className="text-gray-600 text-sm mb-1">{stat.label}</p>
+                                <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
                             </div>
-                            <p className="text-gray-400 text-sm">{stat.label}</p>
-                            <p className="text-2xl font-bold">{stat.value}</p>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
 
                 {/* Quick Links */}
                 <div className="grid md:grid-cols-3 gap-6 mb-8">
-                    <Link to="/admin/orders" className="card hover:border-purple-500/50 flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center">
-                            <ShoppingBag size={24} />
-                        </div>
-                        <div>
-                            <h3 className="font-semibold">Manage Orders</h3>
-                            <p className="text-gray-400 text-sm">View and manage all orders</p>
-                        </div>
-                    </Link>
-
-                    <Link to="/admin/menu" className="card hover:border-green-500/50 flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-lg bg-green-500/20 text-green-400 flex items-center justify-center">
-                            <Package size={24} />
-                        </div>
-                        <div>
-                            <h3 className="font-semibold">Manage Products</h3>
-                            <p className="text-gray-400 text-sm">Add and edit products</p>
-                        </div>
-                    </Link>
+                    {quickLinks.map((link, index) => {
+                        const Icon = link.icon;
+                        return (
+                            <Link
+                                key={index}
+                                to={link.link}
+                                className="card bg-white hover-lift hover:border-secondary/30 transition group"
+                            >
+                                <div className="flex items-center gap-4 mb-4">
+                                    <div className={`w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center group-hover:scale-110 transition`}>
+                                        <Icon className="text-white" size={24} />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="font-bold text-lg text-gray-900 group-hover:text-secondary transition">
+                                            {link.title}
+                                        </h3>
+                                        <p className="text-sm text-gray-600">{link.description}</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center justify-between pt-3 border-t border-gray-200">
+                                    <span className="text-sm text-gray-600">{link.countLabel}</span>
+                                    <span className="text-2xl font-bold text-gray-900">{link.count}</span>
+                                </div>
+                            </Link>
+                        );
+                    })}
                 </div>
 
                 {/* Recent Orders */}
-                <div className="card">
-                    <h3 className="font-semibold text-lg mb-4">Recent Orders</h3>
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                            <thead><tr className="text-gray-400 border-b border-gray-700">
-                                <th className="text-left py-2">Order #</th>
-                                <th className="text-left py-2">Customer</th>
-                                <th className="text-left py-2">Amount</th>
-                                <th className="text-left py-2">Status</th>
-                            </tr></thead>
-                            <tbody>
-                                {analytics?.recentOrders?.slice(0, 5).map(order => (
-                                    <tr key={order._id} className="border-b border-gray-800">
-                                        <td className="py-2">{order.orderNumber}</td>
-                                        <td className="py-2">{order.user?.name || 'N/A'}</td>
-                                        <td className="py-2">₹{order.totalAmount}</td>
-                                        <td className="py-2"><span className={`badge badge-${order.status}`}>{order.status}</span></td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                <div className="card bg-white">
+                    <div className="flex items-center justify-between mb-6">
+                        <h2 className="text-2xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>
+                            Recent Orders
+                        </h2>
+                        <Link to="/admin/orders" className="btn btn-outlined btn-sm">
+                            View All
+                        </Link>
                     </div>
+
+                    {analytics?.recentOrders?.length > 0 ? (
+                        <div className="overflow-x-auto">
+                            <table className="w-full">
+                                <thead>
+                                    <tr className="border-b border-gray-200">
+                                        <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Order ID</th>
+                                        <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Customer</th>
+                                        <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Date</th>
+                                        <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Amount</th>
+                                        <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Payment</th>
+                                        <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {analytics.recentOrders.slice(0, 10).map((order) => (
+                                        <tr key={order._id} className="border-b border-gray-100 hover:bg-gray-50 transition">
+                                            <td className="py-3 px-4">
+                                                <Link
+                                                    to={`/orders/${order._id}`}
+                                                    className="font-mono text-sm text-secondary hover:underline"
+                                                >
+                                                    #{order._id.slice(-8).toUpperCase()}
+                                                </Link>
+                                            </td>
+                                            <td className="py-3 px-4">
+                                                <p className="font-medium text-gray-900">{order.user?.name || 'N/A'}</p>
+                                                <p className="text-xs text-gray-500">{order.user?.email}</p>
+                                            </td>
+                                            <td className="py-3 px-4 text-sm text-gray-600">
+                                                {new Date(order.createdAt).toLocaleDateString('en-IN', {
+                                                    day: 'numeric',
+                                                    month: 'short',
+                                                    year: 'numeric'
+                                                })}
+                                            </td>
+                                            <td className="py-3 px-4">
+                                                <p className="font-semibold text-gray-900">
+                                                    ₹{order.totalAmount.toLocaleString()}
+                                                </p>
+                                            </td>
+                                            <td className="py-3 px-4">
+                                                {order.paymentStatus === 'completed' ? (
+                                                    <span className="inline-flex items-center gap-1 text-success text-sm">
+                                                        <CheckCircle size={14} />
+                                                        Paid
+                                                    </span>
+                                                ) : (
+                                                    <span className="inline-flex items-center gap-1 text-warning text-sm">
+                                                        <Clock size={14} />
+                                                        Partial
+                                                    </span>
+                                                )}
+                                            </td>
+                                            <td className="py-3 px-4">
+                                                <StatusBadge status={order.status} />
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    ) : (
+                        <div className="text-center py-12 bg-gray-50 rounded-lg">
+                            <ShoppingBag className="mx-auto text-gray-400 mb-3" size={48} />
+                            <p className="text-gray-500">No orders yet</p>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

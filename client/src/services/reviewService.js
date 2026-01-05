@@ -24,9 +24,16 @@ export const deleteReview = async (id) => {
     return data;
 };
 
+// Check if user can review a product
+export const checkCanReview = async (productId) => {
+    const { data } = await api.get(`/reviews/can-review/${productId}`);
+    return data;
+};
+
 export default {
     createReview,
     getProductReviews,
     getUserReviews,
-    deleteReview
+    deleteReview,
+    checkCanReview
 };
