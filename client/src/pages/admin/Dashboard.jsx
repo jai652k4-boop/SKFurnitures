@@ -5,7 +5,8 @@ import LoadingSkeleton from '../../components/common/LoadingSkeleton';
 import StatusBadge from '../../components/common/StatusBadge';
 import { ShoppingBag, Package, DollarSign, TrendingUp, Users, Clock, CheckCircle, XCircle } from 'lucide-react';
 
-export default function AdminDashboard() {
+
+const AdminDashboard = () => {
     const [analytics, setAnalytics] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -84,7 +85,7 @@ export default function AdminDashboard() {
             title: 'Manage Products',
             description: 'Add, edit, and manage products',
             icon: Package,
-            link: '/admin/menu',
+            link: '/admin/products',
             color: 'green',
             count: analytics?.products?.total || 0,
             countLabel: 'Products'
@@ -248,3 +249,5 @@ export default function AdminDashboard() {
         </div>
     );
 }
+
+export default AdminDashboard;

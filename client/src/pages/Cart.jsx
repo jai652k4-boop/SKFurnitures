@@ -6,7 +6,7 @@ import { updateQuantity, removeFromCart, clearCart, calculateTotals } from '../s
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight, ShoppingCart, Tag, Truck, Shield } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-export default function Cart() {
+const Cart = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { isSignedIn } = useAuth();
@@ -56,7 +56,7 @@ export default function Cart() {
                     <p className="text-gray-600 mb-8 text-lg">
                         Looks like you haven't added any furniture yet. Explore our collection to find pieces you'll love!
                     </p>
-                    <Link to="/menu" className="inline-flex items-center gap-2 px-8 py-4 text-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg active:scale-95">
+                    <Link to="/products" className="inline-flex items-center gap-2 px-8 py-4 text-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg active:scale-95">
                         <ShoppingBag size={20} />
                         Browse Collection
                     </Link>
@@ -163,7 +163,7 @@ export default function Cart() {
 
                         {/* Continue Shopping */}
                         <Link
-                            to="/menu"
+                            to="/products"
                             className="inline-flex items-center gap-2 px-6 py-3 text-base border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-purple-600 hover:text-purple-600 transition-all active:scale-95 w-full justify-center"
                         >
                             <ArrowRight size={18} className="rotate-180" />
@@ -240,3 +240,5 @@ export default function Cart() {
         </div>
     );
 }
+
+export default Cart;

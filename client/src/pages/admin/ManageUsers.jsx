@@ -3,7 +3,7 @@ import api from '../../services/api';
 import toast from 'react-hot-toast';
 import { Users, Search, RefreshCw, Mail, Phone, Calendar, ShoppingBag, DollarSign, TrendingUp, Clock } from 'lucide-react';
 
-export default function ManageUsers() {
+const ManageUsers = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
@@ -246,3 +246,5 @@ export default function ManageUsers() {
         </div>
     );
 }
+
+export default ManageUsers;

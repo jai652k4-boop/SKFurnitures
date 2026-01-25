@@ -1,20 +1,10 @@
 import MapEmbed from '../components/common/MapEmbed';
 import { MapPin, Clock, Phone, Mail, Navigation } from 'lucide-react';
 
-export default function Location() {
+
+const Location = () => {
     return (
         <div className="min-h-screen bg-gray-50">
-            {/* Header */}
-            <div className="bg-white border-b border-gray-200">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
-                        Visit Our <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Showroom</span>
-                    </h1>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                        Experience our premium furniture collection in person. Our experts are ready to help you find the perfect pieces for your space.
-                    </p>
-                </div>
-            </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 {/* Map */}
@@ -142,3 +132,5 @@ export default function Location() {
         </div>
     );
 }
+
+export default Location;

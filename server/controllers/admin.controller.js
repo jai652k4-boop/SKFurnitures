@@ -1,9 +1,6 @@
 import { User, Product, Order, Payment } from '../models/index.js';
 import { sendInvoiceEmail } from '../config/email.js';
 
-// @desc    Get all orders (admin view)
-// @route   GET /api/admin/orders
-// @access  Admin
 export const getAllOrders = async (req, res, next) => {
     try {
         const { status, page = 1, limit = 20 } = req.query;
@@ -37,9 +34,6 @@ export const getAllOrders = async (req, res, next) => {
     }
 };
 
-// @desc    Get dashboard analytics
-// @route   GET /api/admin/analytics
-// @access  Admin
 export const getAnalytics = async (req, res, next) => {
     try {
         // Total users
@@ -151,9 +145,6 @@ export const getAnalytics = async (req, res, next) => {
     }
 };
 
-// @desc    Get all users with statistics
-// @route   GET /api/admin/users
-// @access  Admin
 export const getAllUsers = async (req, res, next) => {
     try {
         const { page = 1, limit = 20, search } = req.query;
@@ -228,9 +219,6 @@ export const getAllUsers = async (req, res, next) => {
     }
 };
 
-// @desc    Update user role
-// @route   PUT /api/admin/users/:id/role
-// @access  Admin
 export const updateUserRole = async (req, res, next) => {
     try {
         const { role } = req.body;
@@ -265,9 +253,6 @@ export const updateUserRole = async (req, res, next) => {
     }
 };
 
-// @desc    Update order status
-// @route   PUT /api/admin/orders/:id/status
-// @access  Admin
 export const updateOrderStatus = async (req, res, next) => {
     try {
         const { status } = req.body;
@@ -305,9 +290,9 @@ export const updateOrderStatus = async (req, res, next) => {
                     userEmail: order.customerEmail || order.user?.email
                 }
             });
-            console.log(`📨 Status update event sent for order ${order._id}`);
+
         } catch (inngestError) {
-            console.log('⚠️ Could not send status update email:', inngestError.message);
+
         }
 
         res.status(200).json({
@@ -320,9 +305,6 @@ export const updateOrderStatus = async (req, res, next) => {
     }
 };
 
-// @desc    Send invoice email to customer
-// @route   POST /api/admin/billing/:id
-// @access  Admin
 export const sendInvoice = async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -359,15 +341,13 @@ export const sendInvoice = async (req, res, next) => {
             order.invoiceSent = true;
             await order.save();
 
-            console.log(`✅ Invoice sent to ${customerEmail} for order ${order._id}`);
-
             res.status(200).json({
                 success: true,
                 message: 'Invoice sent successfully',
                 data: order
             });
         } catch (emailError) {
-            console.error('❌ Email sending failed:', emailError.message);
+            console.error('Email sending failed:', emailError.message);
             return res.status(500).json({
                 success: false,
                 message: `Failed to send invoice email: ${emailError.message}`

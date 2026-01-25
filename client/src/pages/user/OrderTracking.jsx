@@ -7,7 +7,7 @@ import { Package, Clock, CheckCircle, Truck, Home, ArrowLeft, MapPin, Phone, Dow
 import api from '../../services/api';
 import toast from 'react-hot-toast';
 
-export default function OrderTracking() {
+const OrderTracking = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { currentOrder: order } = useSelector(state => state.orders);
@@ -268,3 +268,5 @@ export default function OrderTracking() {
         </div>
     );
 }
+
+export default OrderTracking;

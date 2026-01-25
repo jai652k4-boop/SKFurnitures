@@ -22,7 +22,7 @@ const createTransporter = () => {
 export const sendOrderConfirmationEmail = async (orderData) => {
     try {
         if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-            console.log('⚠️ [EMAIL] SMTP not configured, skipping email');
+
             return;
         }
 
@@ -254,7 +254,7 @@ export const sendOrderConfirmationEmail = async (orderData) => {
         };
 
         await transport.sendMail(mailOptions);
-        console.log(`✅ [EMAIL] Order confirmation sent to ${customerEmail}`);
+
     } catch (error) {
         console.error('❌ [EMAIL] Error sending email:', error.message);
     }
@@ -263,7 +263,7 @@ export const sendOrderConfirmationEmail = async (orderData) => {
 export const sendInvoiceEmail = async (orderData) => {
     try {
         if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-            console.log('⚠️ [EMAIL] SMTP not configured, skipping invoice email');
+
             return;
         }
 
@@ -460,7 +460,7 @@ export const sendInvoiceEmail = async (orderData) => {
         };
 
         await transport.sendMail(mailOptions);
-        console.log(`✅ [EMAIL] Invoice sent to ${customerEmail}`);
+
     } catch (error) {
         console.error('❌ [EMAIL] Error sending invoice:', error.message);
         throw error; // Re-throw so the controller can handle it

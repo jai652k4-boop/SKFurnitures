@@ -1,7 +1,7 @@
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { XCircle, ArrowLeft, ShoppingCart, HelpCircle, Mail } from 'lucide-react';
 
-export default function PaymentFailed() {
+const PaymentFailed = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const error = searchParams.get('error');
@@ -94,7 +94,7 @@ export default function PaymentFailed() {
                         Return to Cart
                     </button>
                     <button
-                        onClick={() => navigate('/menu')}
+                        onClick={() => navigate('/products')}
                         className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-all shadow-sm hover:shadow active:scale-95 justify-center"
                     >
                         <ArrowLeft size={18} />
@@ -128,3 +128,5 @@ export default function PaymentFailed() {
         </div>
     );
 }
+
+export default PaymentFailed;

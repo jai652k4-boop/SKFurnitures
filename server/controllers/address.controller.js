@@ -1,8 +1,5 @@
 import { Address } from '../models/index.js';
 
-// @desc    Get all addresses for logged-in user
-// @route   GET /api/addresses
-// @access  Private
 export const getUserAddresses = async (req, res) => {
     try {
         const addresses = await Address.find({ user: req.user._id }).sort('-createdAt');
@@ -12,9 +9,6 @@ export const getUserAddresses = async (req, res) => {
     }
 };
 
-// @desc    Create a new address
-// @route   POST /api/addresses
-// @access  Private
 export const createAddress = async (req, res) => {
     try {
         const address = await Address.create({
@@ -28,9 +22,6 @@ export const createAddress = async (req, res) => {
     }
 };
 
-// @desc    Update an address
-// @route   PUT /api/addresses/:id
-// @access  Private
 export const updateAddress = async (req, res) => {
     try {
         const address = await Address.findById(req.params.id);
@@ -56,9 +47,6 @@ export const updateAddress = async (req, res) => {
     }
 };
 
-// @desc    Delete an address
-// @route   DELETE /api/addresses/:id
-// @access  Private
 export const deleteAddress = async (req, res) => {
     try {
         const address = await Address.findById(req.params.id);

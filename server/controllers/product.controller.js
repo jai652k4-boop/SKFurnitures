@@ -1,8 +1,5 @@
 import { Product, Review } from '../models/index.js';
 
-// @desc    Get all products
-// @route   GET /api/products
-// @access  Public
 export const getAllProducts = async (req, res) => {
     try {
         const { category, minPrice, maxPrice, size, search, sort = '-createdAt', page = 1, limit = 12 } = req.query;
@@ -48,9 +45,6 @@ export const getAllProducts = async (req, res) => {
     }
 };
 
-// @desc    Get single product by ID
-// @route   GET /api/products/:id
-// @access  Public
 export const getProductById = async (req, res) => {
     try {
         const product = await Product.findById(req.params.id);
@@ -74,24 +68,15 @@ export const getProductById = async (req, res) => {
     }
 };
 
-// @desc    Create a product
-// @route   POST /api/products
-// @access  Admin
 export const createProduct = async (req, res) => {
     try {
-        console.log('=== CREATE PRODUCT DEBUG ===');
-        console.log('req.body:', req.body);
-        console.log('req.files:', req.files);
-
         const { name, description, price, category, stock, size } = req.body;
 
-        console.log('Extracted fields:', { name, description, price, category, stock, size });
 
         // Handle image uploads (files are already uploaded to Cloudinary via middleware)
         let imageUrls = [];
         if (req.files && req.files.length > 0) {
             imageUrls = req.files.map(file => file.path);
-            console.log('Uploaded images:', imageUrls);
         }
 
         const productData = {
@@ -104,25 +89,14 @@ export const createProduct = async (req, res) => {
             images: imageUrls
         };
 
-        console.log('Creating product with data:', productData);
-
         const product = await Product.create(productData);
 
-        console.log('Product created successfully:', product._id);
         res.status(201).json({ success: true, data: product });
     } catch (error) {
-        console.error('Create product error:', error);
-        console.error('Error details:', error.message);
-        if (error.errors) {
-            console.error('Validation errors:', error.errors);
-        }
         res.status(400).json({ success: false, message: error.message });
     }
 };
 
-// @desc    Update a product
-// @route   PUT /api/products/:id
-// @access  Admin
 export const updateProduct = async (req, res) => {
     try {
         const { name, description, price, category, stock, size } = req.body;
@@ -155,14 +129,10 @@ export const updateProduct = async (req, res) => {
 
         res.json({ success: true, data: product });
     } catch (error) {
-        console.error('Update product error:', error);
         res.status(400).json({ success: false, message: error.message });
     }
 };
 
-// @desc    Delete a product
-// @route   DELETE /api/products/:id
-// @access  Admin
 export const deleteProduct = async (req, res) => {
     try {
         const product = await Product.findByIdAndDelete(req.params.id);
@@ -180,9 +150,6 @@ export const deleteProduct = async (req, res) => {
     }
 };
 
-// @desc    Get product categories
-// @route   GET /api/products/categories/all
-// @access  Public
 export const getCategories = async (req, res) => {
     try {
         const categories = await Product.distinct('category');

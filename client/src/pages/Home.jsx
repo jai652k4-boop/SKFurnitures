@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useAuth } from '@clerk/clerk-react';
 import { useEffect, useState } from 'react';
 
-export default function Home() {
+const Home = () => {
     const { isSignedIn } = useAuth();
     const { user } = useSelector(state => state.auth);
     const [isVisible, setIsVisible] = useState(false);
@@ -88,7 +88,7 @@ export default function Home() {
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                            <Link to="/menu" className="inline-flex items-center gap-2 px-8 py-4 text-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg active:scale-95 group">
+                            <Link to="/products" className="inline-flex items-center gap-2 px-8 py-4 text-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg active:scale-95 group">
                                 Explore Collection
                                 <ArrowRight className="group-hover:translate-x-1 transition-transform" size={20} />
                             </Link>
@@ -136,7 +136,7 @@ export default function Home() {
                         {categories.map((category, index) => (
                             <Link
                                 key={index}
-                                to="/menu"
+                                to="/products"
                                 className="group relative h-80 rounded-2xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                             >
                                 <img
@@ -198,7 +198,7 @@ export default function Home() {
                         Browse our exclusive collection and bring your dream interior to life
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link to="/menu" className="inline-flex items-center gap-2 px-8 py-4 text-lg bg-white text-purple-600 hover:bg-gray-100 transition-all shadow-md hover:shadow-lg active:scale-95 rounded-lg group">
+                        <Link to="/products" className="inline-flex items-center gap-2 px-8 py-4 text-lg bg-white text-purple-600 hover:bg-gray-100 transition-all shadow-md hover:shadow-lg active:scale-95 rounded-lg group">
                             Start Shopping
                             <ArrowRight className="group-hover:translate-x-1 transition-transform" size={20} />
                         </Link>
@@ -211,3 +211,5 @@ export default function Home() {
         </div>
     );
 }
+
+export default Home;

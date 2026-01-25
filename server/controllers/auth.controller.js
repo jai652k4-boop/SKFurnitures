@@ -1,8 +1,5 @@
 import { User, Product } from '../models/index.js';
 
-// @desc    Get current logged in user
-// @route   GET /api/auth/me
-// @access  Private
 export const getMe = async (req, res, next) => {
     try {
         const user = await User.findById(req.user._id)
@@ -18,9 +15,6 @@ export const getMe = async (req, res, next) => {
     }
 };
 
-// @desc    Update user profile
-// @route   PUT /api/auth/profile
-// @access  Private
 export const updateProfile = async (req, res, next) => {
     try {
         const { name, phone, profileImage } = req.body;
@@ -41,9 +35,6 @@ export const updateProfile = async (req, res, next) => {
     }
 };
 
-// @desc    Logout user (clears cookie if any)
-// @route   POST /api/auth/logout
-// @access  Private
 export const logout = async (req, res, next) => {
     try {
         res.cookie('token', 'none', {
@@ -60,9 +51,6 @@ export const logout = async (req, res, next) => {
     }
 };
 
-// @desc    Add item to cart
-// @route   POST /api/auth/cart/add
-// @access  Private
 export const addToCart = async (req, res) => {
     try {
         const { productId, quantity = 1 } = req.body;
@@ -98,9 +86,6 @@ export const addToCart = async (req, res) => {
     }
 };
 
-// @desc    Update cart item quantity
-// @route   PUT /api/auth/cart/update
-// @access  Private
 export const updateCartItem = async (req, res) => {
     try {
         const { productId, quantity } = req.body;
@@ -127,9 +112,6 @@ export const updateCartItem = async (req, res) => {
     }
 };
 
-// @desc    Remove item from cart
-// @route   DELETE /api/auth/cart/remove/:productId
-// @access  Private
 export const removeFromCart = async (req, res) => {
     try {
         const { productId } = req.params;
@@ -150,9 +132,6 @@ export const removeFromCart = async (req, res) => {
     }
 };
 
-// @desc    Get user cart
-// @route   GET /api/auth/cart
-// @access  Private
 export const getCart = async (req, res) => {
     try {
         const user = await User.findById(req.user._id)
@@ -164,9 +143,6 @@ export const getCart = async (req, res) => {
     }
 };
 
-// @desc    Add product to favorites
-// @route   POST /api/auth/favorites/add
-// @access  Private
 export const addToFavorites = async (req, res) => {
     try {
         const { productId } = req.body;
@@ -194,9 +170,6 @@ export const addToFavorites = async (req, res) => {
     }
 };
 
-// @desc    Remove product from favorites
-// @route   DELETE /api/auth/favorites/remove/:productId
-// @access  Private
 export const removeFromFavorites = async (req, res) => {
     try {
         const { productId } = req.params;
@@ -217,9 +190,6 @@ export const removeFromFavorites = async (req, res) => {
     }
 };
 
-// @desc    Get user favorites
-// @route   GET /api/auth/favorites
-// @access  Private
 export const getFavorites = async (req, res) => {
     try {
         const user = await User.findById(req.user._id)
@@ -231,9 +201,6 @@ export const getFavorites = async (req, res) => {
     }
 };
 
-// @desc    Update user cart
-// @route   POST /api/auth/cart/update
-// @access  Private
 export const updateCart = async (req, res) => {
     try {
         const { cartItems } = req.body;
@@ -243,7 +210,7 @@ export const updateCart = async (req, res) => {
 
         res.json({ success: true, message: "Cart Updated" });
     } catch (error) {
-        console.log(error.message);
+
         res.json({ success: false, message: error.message });
     }
 };

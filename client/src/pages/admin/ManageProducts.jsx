@@ -3,7 +3,7 @@ import api from '../../services/api';
 import toast from 'react-hot-toast';
 import { Plus, Edit2, Trash2, X } from 'lucide-react';
 
-export default function ManageMenu() {
+const ManageProducts = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
@@ -219,3 +219,5 @@ export default function ManageMenu() {
         </div>
     );
 }
+
+export default ManageProducts;

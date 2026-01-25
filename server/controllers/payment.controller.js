@@ -3,9 +3,6 @@ import stripe from '../config/stripe.js';
 import { sendOrderConfirmationEmail } from '../config/email.js';
 import { inngest } from '../config/inngest.js';
 
-// @desc    Create Stripe Checkout Session (without creating order yet)
-// @route   POST /api/payments/create-payment-intent
-// @access  Private
 export const createPaymentIntent = async (req, res, next) => {
     try {
         const { orderData, paymentType } = req.body;
@@ -108,9 +105,6 @@ export const createPaymentIntent = async (req, res, next) => {
     }
 };
 
-// @desc    Confirm checkout session and create order (fallback for webhooks)
-// @route   POST /api/payments/confirm-session
-// @access  Private
 export const confirmCheckoutSession = async (req, res, next) => {
     try {
         const { sessionId } = req.body;
@@ -186,8 +180,6 @@ export const confirmCheckoutSession = async (req, res, next) => {
             stripePaymentIntentId: sessionId
         });
 
-        console.log(`✅ Order ${order._id} created - Payment: ${paymentStatus}, Paid: ₹${paidAmount}, Remaining: ₹${remainingAmount}`);
-
         // Send confirmation email
         try {
             if (order.customerEmail) {
@@ -195,9 +187,9 @@ export const confirmCheckoutSession = async (req, res, next) => {
                     order,
                     customerEmail: order.customerEmail
                 });
-                console.log(`📧 Email sent to ${order.customerEmail}`);
+
             } else {
-                console.log('⚠️ No customer email found, skipping email');
+
             }
         } catch (emailError) {
             console.error('❌ Email error:', emailError.message);
@@ -216,7 +208,7 @@ export const confirmCheckoutSession = async (req, res, next) => {
                     totalAmount: order.totalAmount
                 }
             });
-            console.log(`📨 Inngest confirmation event triggered for order ${order._id}`);
+
         } catch (inngestError) {
             console.error('⚠️ Inngest event error:', inngestError.message);
         }
@@ -228,9 +220,6 @@ export const confirmCheckoutSession = async (req, res, next) => {
     }
 };
 
-// @desc    Create payment for remaining amount
-// @route   POST /api/payments/remaining/:orderId
-// @access  Private
 export const createRemainingPayment = async (req, res, next) => {
     try {
         const { orderId } = req.params;
@@ -289,8 +278,6 @@ export const createRemainingPayment = async (req, res, next) => {
             }
         });
 
-        console.log(`✅ [PAYMENT] Remaining payment session created for order ${order._id}`);
-
         res.status(200).json({
             success: true,
             url: session.url,
@@ -303,9 +290,6 @@ export const createRemainingPayment = async (req, res, next) => {
     }
 };
 
-// @desc    Confirm payment success
-// @route   POST /api/payments/confirm
-// @access  Private
 export const confirmPaymentSuccess = async (req, res, next) => {
     try {
         const { paymentIntentId } = req.body;
@@ -349,9 +333,6 @@ export const confirmPaymentSuccess = async (req, res, next) => {
     }
 };
 
-// @desc    Stripe webhook handler
-// @route   POST /api/payments/webhook
-// @access  Public (Stripe)
 export const handleWebhook = async (req, res) => {
     const sig = req.headers['stripe-signature'];
     const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -377,8 +358,6 @@ export const handleWebhook = async (req, res) => {
             const isRemainingPayment = session.metadata.isRemainingPayment === 'true';
             const orderId = session.metadata.orderId;
 
-            console.log(`📥 Webhook: checkout.session.completed - ${isRemainingPayment ? 'Remaining' : 'Initial'} payment`);
-
             if (isRemainingPayment && orderId) {
                 // Handle remaining payment
                 try {
@@ -403,8 +382,6 @@ export const handleWebhook = async (req, res) => {
                             stripePaymentIntentId: session.id
                         });
 
-                        console.log(`✅ [WEBHOOK] Remaining payment ₹${paidAmount} completed for order ${orderId}`);
-
                         // Send status update email via Inngest
                         try {
                             await inngest.send({
@@ -415,7 +392,7 @@ export const handleWebhook = async (req, res) => {
                                     userEmail: order.customerEmail
                                 }
                             });
-                            console.log(`📨 [WEBHOOK] Status update event sent for order ${orderId}`);
+
                         } catch (inngestErr) {
                             console.error('⚠️ [WEBHOOK] Inngest error:', inngestErr.message);
                         }
@@ -427,8 +404,7 @@ export const handleWebhook = async (req, res) => {
                 // Initial payment - webhook backup (confirmCheckoutSession should handle this)
                 const existingOrder = await Order.findOne({ 'metadata.sessionId': session.id });
                 if (existingOrder) {
-                    console.log(`ℹ️ [WEBHOOK] Order already exists`);
-                    
+
                     // Send confirmation email if not already sent
                     try {
                         if (existingOrder.customerEmail) {
@@ -436,14 +412,13 @@ export const handleWebhook = async (req, res) => {
                                 order: existingOrder,
                                 customerEmail: existingOrder.customerEmail
                             });
-                            console.log(`📧 [WEBHOOK] Email sent to ${existingOrder.customerEmail}`);
+
                         }
                     } catch (emailErr) {
                         console.error('❌ [WEBHOOK] Email error:', emailErr.message);
                     }
                 } else {
-                    console.log(`⚠️ [WEBHOOK] Order not found, creating via webhook backup`);
-                    
+
                     try {
                         const paymentType = session.metadata.paymentType;
                         const orderData = JSON.parse(orderDataStr);
@@ -501,15 +476,13 @@ export const handleWebhook = async (req, res) => {
                             stripePaymentIntentId: session.id
                         });
 
-                        console.log(`✅ [WEBHOOK] Order created via backup: ${newOrder._id}`);
-
                         // Send confirmation email
                         try {
                             await sendOrderConfirmationEmail({
                                 order: newOrder,
                                 customerEmail: newOrder.customerEmail
                             });
-                            console.log(`📧 [WEBHOOK] Email sent to ${newOrder.customerEmail}`);
+
                         } catch (emailErr) {
                             console.error('❌ [WEBHOOK] Email error:', emailErr.message);
                         }
@@ -526,7 +499,7 @@ export const handleWebhook = async (req, res) => {
                                     totalAmount: newOrder.totalAmount
                                 }
                             });
-                            console.log(`📨 [WEBHOOK] Confirmation event triggered for order ${newOrder._id}`);
+
                         } catch (inngestErr) {
                             console.error('⚠️ [WEBHOOK] Inngest event error:', inngestErr.message);
                         }
@@ -566,15 +539,12 @@ export const handleWebhook = async (req, res) => {
             break;
 
         default:
-            console.log(`Unhandled event type ${event.type}`);
+
     }
 
     res.json({ received: true });
 };
 
-// @desc    Get payment history
-// @route   GET /api/payments/history
-// @access  Private
 export const getPaymentHistory = async (req, res, next) => {
     try {
         const payments = await Payment.find({ user: req.user._id })
@@ -590,9 +560,6 @@ export const getPaymentHistory = async (req, res, next) => {
     }
 };
 
-// @desc    Get payment by ID
-// @route   GET /api/payments/:id
-// @access  Private
 export const getPaymentById = async (req, res, next) => {
     try {
         const payment = await Payment.findById(req.params.id)

@@ -2,7 +2,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@clerk/clerk-react';
 import { useSelector } from 'react-redux';
 
-export default function ProtectedRoute({ children, role }) {
+const ProtectedRoute = ({ children, role }) => {
     const location = useLocation();
     const { isSignedIn, isLoaded } = useAuth();
     const { user, isLoading } = useSelector(state => state.auth);
@@ -37,3 +37,5 @@ export default function ProtectedRoute({ children, role }) {
 
     return children;
 }
+
+export default ProtectedRoute;

@@ -1,8 +1,5 @@
 import { Review, Product, Order } from '../models/index.js';
 
-// @desc    Create or update a review
-// @route   POST /api/reviews
-// @access  Private
 export const createReview = async (req, res) => {
     try {
         const { product, rating, comment } = req.body;
@@ -55,9 +52,6 @@ export const createReview = async (req, res) => {
     }
 };
 
-// @desc    Get all reviews for a product
-// @route   GET /api/reviews/product/:productId
-// @access  Public
 export const getProductReviews = async (req, res) => {
     try {
         const reviews = await Review.find({ product: req.params.productId })
@@ -70,9 +64,6 @@ export const getProductReviews = async (req, res) => {
     }
 };
 
-// @desc    Get all reviews by a user
-// @route   GET /api/reviews/user
-// @access  Private
 export const getUserReviews = async (req, res) => {
     try {
         const reviews = await Review.find({ user: req.user._id })
@@ -85,9 +76,6 @@ export const getUserReviews = async (req, res) => {
     }
 };
 
-// @desc    Delete a review
-// @route   DELETE /api/reviews/:id
-// @access  Private
 export const deleteReview = async (req, res) => {
     try {
         const review = await Review.findById(req.params.id);
@@ -113,9 +101,6 @@ export const deleteReview = async (req, res) => {
     }
 };
 
-// @desc    Check if user can review a product
-// @route   GET /api/reviews/can-review/:productId
-// @access  Private
 export const checkCanReview = async (req, res) => {
     try {
         const userId = req.user._id;

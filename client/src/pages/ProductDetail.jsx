@@ -95,9 +95,9 @@ const ProductDetail = () => {
 
   const descriptionPoints = currentProduct.description
     ? currentProduct.description
-        .split('\n')
-        .filter(Boolean)
-        .slice(0, 5)
+      .split('\n')
+      .filter(Boolean)
+      .slice(0, 5)
     : [];
 
   return (
@@ -107,7 +107,7 @@ const ProductDetail = () => {
         {/* Breadcrumb */}
         <p className="text-sm text-gray-600 py-3">
           <Link to="/" className="hover:text-indigo-500">Home</Link> /
-          <Link to="/menu" className="hover:text-indigo-500"> Products</Link> /
+          <Link to="/products" className="hover:text-indigo-500"> Products</Link> /
           <span> {currentProduct.category}</span> /
           <span className="text-indigo-500"> {currentProduct.name}</span>
         </p>

@@ -5,7 +5,7 @@ import { clearUser } from '../../store/slices/authSlice';
 import { ShoppingCart, User, LogOut, Menu, X, LayoutDashboard, Sofa } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
-export default function Navbar() {
+const Navbar = () => {
     const { isSignedIn } = useAuth();
     const { signOut } = useClerk();
     const { user } = useSelector(state => state.auth);
@@ -64,7 +64,7 @@ export default function Navbar() {
                             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-600 to-indigo-600 group-hover:w-full transition-all"></span>
                         </Link>
                         <Link
-                            to="/menu"
+                            to="/products"
                             className="text-gray-700 hover:text-gray-700 font-medium transition relative group"
                         >
                             Collection
@@ -165,7 +165,7 @@ export default function Navbar() {
                             Home
                         </Link>
                         <Link
-                            to="/menu"
+                            to="/products"
                             className="block py-2 text-gray-700 hover:text-gray-700 font-medium transition"
                             onClick={() => setIsOpen(false)}
                         >
@@ -246,3 +246,5 @@ export default function Navbar() {
         </nav>
     );
 }
+
+export default Navbar;

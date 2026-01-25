@@ -5,7 +5,7 @@ import { Search } from 'lucide-react';
 import ProductCard from '../components/common/ProductCard';
 import LoadingSkeleton from '../components/common/LoadingSkeleton';
 
-export default function Menu() {
+const Products = () => {
   const dispatch = useDispatch();
   const { products, loading } = useSelector((state) => state.products);
 
@@ -26,7 +26,7 @@ export default function Menu() {
 
         {/* Search Bar */}
         <form onSubmit={handleSearch} className="flex items-center gap-3 mb-12">
-          
+
           {/* Input Wrapper (prebuilt-UI style) */}
           <div className="flex items-center w-full h-[46px] rounded-full bg-white px-4 gap-3 overflow-hidden">
             <Search size={20} className="text-gray-400 shrink-0" />
@@ -82,3 +82,5 @@ export default function Menu() {
     </div>
   );
 }
+
+export default Products;

@@ -1,9 +1,6 @@
 import { Order, Product, User, Address } from '../models/index.js';
 import { inngest } from '../config/inngest.js';
 
-// @desc    Create new order
-// @route   POST /api/orders
-// @access  Private (User)
 export const createOrder = async (req, res, next) => {
     try {
         const { items, shippingAddressId, paymentType, specialInstructions } = req.body;
@@ -92,9 +89,6 @@ export const createOrder = async (req, res, next) => {
     }
 };
 
-// @desc    Get user's orders
-// @route   GET /api/orders
-// @access  Private (User)
 export const getMyOrders = async (req, res, next) => {
     try {
         // Only show orders that have been paid (exclude pending_payment)
@@ -115,9 +109,6 @@ export const getMyOrders = async (req, res, next) => {
     }
 };
 
-// @desc    Get order by ID
-// @route   GET /api/orders/:id
-// @access  Private
 export const getOrder = async (req, res, next) => {
     try {
         const order = await Order.findById(req.params.id)
@@ -142,9 +133,6 @@ export const getOrder = async (req, res, next) => {
     }
 };
 
-// @desc    Get order by session ID
-// @route   GET /api/orders/by-session/:sessionId
-// @access  Private
 export const getOrderBySession = async (req, res, next) => {
     try {
         const order = await Order.findOne({ 'metadata.sessionId': req.params.sessionId })
@@ -168,9 +156,6 @@ export const getOrderBySession = async (req, res, next) => {
     }
 };
 
-// @desc    Cancel order
-// @route   PUT /api/orders/:id/cancel
-// @access  Private (User/Admin)
 export const cancelOrder = async (req, res, next) => {
     try {
         const order = await Order.findById(req.params.id);
@@ -218,9 +203,6 @@ export const cancelOrder = async (req, res, next) => {
     }
 };
 
-// @desc    Confirm order after payment
-// @route   PUT /api/orders/:id/confirm
-// @access  Private
 export const confirmOrder = async (req, res, next) => {
     try {
         const order = await Order.findById(req.params.id).populate('user', 'name email');
@@ -255,9 +237,6 @@ export const confirmOrder = async (req, res, next) => {
     }
 };
 
-// @desc    Update order status (Admin only)
-// @route   PUT /api/orders/:id/status
-// @access  Private (Admin)
 export const updateOrderStatus = async (req, res, next) => {
     try {
         const { status } = req.body;
@@ -287,9 +266,6 @@ export const updateOrderStatus = async (req, res, next) => {
     }
 };
 
-// @desc    Get all orders (Admin only)
-// @route   GET /api/orders/admin/all
-// @access  Private (Admin)
 export const getAllOrders = async (req, res, next) => {
     try {
         const { status, page = 1, limit = 20 } = req.query;

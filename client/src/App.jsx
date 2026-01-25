@@ -9,7 +9,7 @@ import Navbar from './components/layout/Navbar';
 import ProtectedRoute from './components/layout/ProtectedRoute';
 
 import Home from './pages/Home';
-import Menu from './pages/Menu';
+import Products from './pages/Products';
 import Cart from './pages/Cart';
 import ProductDetail from './pages/ProductDetail';
 import SignInPage from './pages/auth/SignInPage';
@@ -22,7 +22,7 @@ import PaymentFailed from './pages/user/PaymentFailed';
 import Location from './pages/Location';
 
 import AdminDashboard from './pages/admin/Dashboard';
-import ManageMenu from './pages/admin/ManageMenu';
+import ManageProducts from './pages/admin/ManageProducts';
 import ManageOrders from './pages/admin/ManageOrders';
 import ManageUsers from './pages/admin/ManageUsers';
 
@@ -62,7 +62,7 @@ function App() {
                 <Routes>
 
                     <Route path="/" element={<Home />} />
-                    <Route path="/menu" element={<Menu />} />
+                    <Route path="/products" element={<Products />} />
                     <Route path="/products/:id" element={<ProductDetail />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/location" element={<Location />} />
@@ -77,7 +77,7 @@ function App() {
                     <Route path="/orders/:id" element={<ProtectedRoute><OrderTracking /></ProtectedRoute>} />
 
                     <Route path="/admin" element={<ProtectedRoute role="admin"><AdminDashboard /></ProtectedRoute>} />
-                    <Route path="/admin/menu" element={<ProtectedRoute role="admin"><ManageMenu /></ProtectedRoute>} />
+                    <Route path="/admin/products" element={<ProtectedRoute role="admin"><ManageProducts /></ProtectedRoute>} />
                     <Route path="/admin/orders" element={<ProtectedRoute role="admin"><ManageOrders /></ProtectedRoute>} />
                     <Route path="/admin/users" element={<ProtectedRoute role="admin"><ManageUsers /></ProtectedRoute>} />
 

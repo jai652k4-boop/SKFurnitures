@@ -1,6 +1,7 @@
 import { MapPin } from 'lucide-react';
 
-export default function MapEmbed() {
+
+const MapEmbed = () => {
 
 
     const mapSrc = import.meta.env.VITE_MAP_EMBED;
@@ -21,18 +22,18 @@ export default function MapEmbed() {
                     allowFullScreen=""
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
-                    title="Sri Velu Mess Location"
+                    title="SK Furniture Location"
                 />
             </div>
 
             <div className="mt-4 p-4 bg-white/5 rounded-lg">
-                <h4 className="font-medium mb-2">Sri Velu Mess</h4>
+                <h4 className="font-medium mb-2">SK Furniture</h4>
                 <p className="text-gray-400 text-sm">
                     Erode, Tamil Nadu, India<br />
-                    Open: 7:00 AM - 10:00 PM
+                    Open: 9:00 AM - 8:00 PM
                 </p>
                 <a
-                    href="https://maps.google.com/?q=Sri+Velu+mess"
+                    href="https://maps.google.com/?q=SK+Furniture+Erode"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg active:scale-95 inline-block mt-3"
@@ -43,3 +44,5 @@ export default function MapEmbed() {
         </div>
     );
 }
+
+export default MapEmbed;

@@ -1,6 +1,6 @@
 import { Clock, CheckCircle, Package, Truck, XCircle, AlertCircle } from 'lucide-react';
 
-export default function StatusBadge({ status }) {
+const StatusBadge = ({ status }) => {
     const statusConfig = {
         pending: {
             label: 'Pending',
@@ -80,3 +80,5 @@ export default function StatusBadge({ status }) {
         </span>
     );
 }
+
+export default StatusBadge;

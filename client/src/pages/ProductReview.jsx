@@ -5,7 +5,7 @@ import { Star, Check, ThumbsUp } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { createReview } from '../services/reviewService';
 
-export default function ProductReview({ product, canReviewData, onReviewSubmitted }) {
+const ProductReview = ({ product, canReviewData, onReviewSubmitted }) => {
     const { isSignedIn } = useAuth();
     const [reviewData, setReviewData] = useState({ rating: 5, comment: '' });
     const [loadingReview, setLoadingReview] = useState(false);
@@ -239,3 +239,5 @@ export default function ProductReview({ product, canReviewData, onReviewSubmitte
         </div>
     );
 }
+
+export default ProductReview;

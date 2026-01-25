@@ -7,7 +7,7 @@ import api from '../../services/api';
 import toast from 'react-hot-toast';
 import { CreditCard, Plus } from 'lucide-react';
 
-export default function Checkout() {
+const Checkout = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { items, totalAmount, subtotal, deliveryCharge } = useSelector(state => state.cart);
@@ -352,3 +352,5 @@ export default function Checkout() {
         </div>
     );
 }
+
+export default Checkout;

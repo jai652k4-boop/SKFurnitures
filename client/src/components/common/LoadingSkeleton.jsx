@@ -1,4 +1,4 @@
-export default function LoadingSkeleton({ type = 'card', count = 1 }) {
+const LoadingSkeleton = ({ type = 'card', count = 1 }) => {
     const skeletons = {
         card: () => (
             <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 animate-pulse">
@@ -55,3 +55,5 @@ export default function LoadingSkeleton({ type = 'card', count = 1 }) {
         </>
     );
 }
+
+export default LoadingSkeleton;

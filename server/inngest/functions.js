@@ -12,9 +12,9 @@ export const sendOrderConfirmation = inngest.createFunction(
         try {
             // Fetch complete order data
             const order = await Order.findById(orderId);
-            
+
             if (!order) {
-                console.error(`❌ [INNGEST] Order ${orderId} not found`);
+                console.error(`[INNGEST] Order ${orderId} not found`);
                 return { success: false, orderId, error: 'Order not found' };
             }
 
@@ -24,10 +24,9 @@ export const sendOrderConfirmation = inngest.createFunction(
                 customerEmail: userEmail || order.user.email
             });
 
-            console.log(`✅ [INNGEST] Order confirmation email sent to ${userEmail} for order ${orderId}`);
             return { success: true, orderId };
         } catch (error) {
-            console.error(`❌ [INNGEST] Failed to send confirmation email:`, error.message);
+            console.error(`[INNGEST] Failed to send confirmation email:`, error.message);
             return { success: false, orderId, error: error.message };
         }
     }
@@ -42,26 +41,26 @@ export const sendOrderStatusUpdate = inngest.createFunction(
 
         try {
             const order = await Order.findById(orderId).populate('user', 'email name');
-            
+
             if (!order) {
-                console.error(`❌ [INNGEST] Order ${orderId} not found for status update`);
+                console.error(`[INNGEST] Order ${orderId} not found for status update`);
                 return { success: false, orderId, status };
             }
 
             const email = userEmail || order.user?.email;
-            
+
             if (!email) {
-                console.warn(`⚠️ [INNGEST] No email found for order ${orderId}`);
+                console.warn(`[INNGEST] No email found for order ${orderId}`);
                 return { success: false, orderId, status, error: 'No email found' };
             }
 
             // Create status update email HTML
             const statusLabels = {
-                'confirmed': 'Confirmed ✅',
-                'processing': 'Processing 🔄',
-                'shipped': 'Shipped 📦',
-                'delivered': 'Delivered 🎉',
-                'cancelled': 'Cancelled ❌'
+                'confirmed': 'Confirmed',
+                'processing': 'Processing',
+                'shipped': 'Shipped',
+                'delivered': 'Delivered',
+                'cancelled': 'Cancelled'
             };
 
             const emailHtml = `
@@ -79,7 +78,7 @@ export const sendOrderStatusUpdate = inngest.createFunction(
                             <table style="width: 600px; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
                                 <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
                                     <td style="padding: 40px; color: white; text-align: center;">
-                                        <h1 style="margin: 0; font-size: 28px;">📦 Order Status Update</h1>
+                                        <h1 style="margin: 0; font-size: 28px;">Order Status Update</h1>
                                     </td>
                                 </tr>
                                 <tr>
@@ -125,10 +124,9 @@ export const sendOrderStatusUpdate = inngest.createFunction(
                 html: emailHtml
             });
 
-            console.log(`✅ [INNGEST] Status update email sent to ${email} for order ${orderId}`);
             return { success: true, orderId, status };
         } catch (error) {
-            console.error(`❌ [INNGEST] Failed to send status update email:`, error.message);
+            console.error(`[INNGEST] Failed to send status update email:`, error.message);
             return { success: false, orderId, status, error: error.message };
         }
     }
@@ -145,7 +143,7 @@ export const generateInvoice = inngest.createFunction(
                 .populate('user', 'name email phone');
 
             if (!order || !order.user) {
-                console.error(`❌ [INNGEST] Order ${orderId} or user not found for invoice generation`);
+                console.error(`[INNGEST] Order ${orderId} or user not found for invoice generation`);
                 return { success: false, orderId, error: 'Order or user not found' };
             }
 
@@ -253,7 +251,6 @@ export const generateInvoice = inngest.createFunction(
                 html: invoiceHtml
             });
 
-            console.log(`[INNGEST] Invoice generated and sent to ${order.user.email} for order ${orderId}`);
             return { success: true, orderId };
         } catch (error) {
             console.error(`[INNGEST] Failed to generate invoice:`, error.message);

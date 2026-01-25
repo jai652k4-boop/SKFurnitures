@@ -5,7 +5,7 @@ if (!process.env.STRIPE_SECRET_KEY) {
     console.error('❌ [STRIPE] STRIPE_SECRET_KEY is not set in environment variables!');
     console.warn('⚠️ [STRIPE] Payment functionality will not work without this key');
 } else {
-    console.log('✅ [STRIPE] Secret key found, length:', process.env.STRIPE_SECRET_KEY.length);
+
     console.log('🔑 [STRIPE] Key prefix:', process.env.STRIPE_SECRET_KEY.substring(0, 7) + '...');
 }
 
@@ -15,9 +15,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'dummy_key', {
 
 export const createPaymentIntent = async (amount, metadata = {}) => {
     try {
-        console.log('💳 [STRIPE] Creating payment intent...');
+
         console.log('💰 [STRIPE] Amount:', amount, '(₹', amount, ')');
-        console.log('📝 [STRIPE] Metadata:', metadata);
 
         const paymentIntent = await stripe.paymentIntents.create({
             amount: Math.round(amount * 100), // Convert to cents/paise
@@ -28,7 +27,6 @@ export const createPaymentIntent = async (amount, metadata = {}) => {
             }
         });
 
-        console.log('✅ [STRIPE] Payment intent created successfully:', paymentIntent.id);
         return paymentIntent;
     } catch (error) {
         console.error('🔥 [STRIPE] Payment intent creation failed!');

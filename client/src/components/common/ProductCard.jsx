@@ -5,7 +5,7 @@ import { Plus, Star, Heart, Eye, ShoppingCart } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
-export default function ProductCard({ product }) {
+const ProductCard = ({ product }) => {
     const dispatch = useDispatch();
     const { items } = useSelector(state => state.cart);
     const inCart = items.find(i => i.productId === product._id);
@@ -77,10 +77,14 @@ export default function ProductCard({ product }) {
                             onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
+                                toast.success('Added to Wishlist!', {
+                                    icon: '❤️',
+                                    duration: 2000
+                                });
                             }}
                             title="Add to Wishlist"
                         >
-                            <Heart size={20} className="text-gray-700" />
+                            <Heart size={20} className="text-gray-700 hover:text-red-500 hover:fill-red-500 transition" />
                         </button>
                         <div
                             className="bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition transform hover:scale-110 cursor-pointer"
@@ -162,3 +166,5 @@ export default function ProductCard({ product }) {
         </Link>
     );
 }
+
+export default ProductCard;

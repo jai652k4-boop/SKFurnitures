@@ -3,7 +3,7 @@ import api from '../../services/api';
 import toast from 'react-hot-toast';
 import { RefreshCw, Send, Package, User, CreditCard, MapPin, Phone, Mail, X } from 'lucide-react';
 
-export default function ManageOrders() {
+const ManageOrders = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState('');
@@ -380,3 +380,5 @@ export default function ManageOrders() {
         </div>
     );
 }
+
+export default ManageOrders;

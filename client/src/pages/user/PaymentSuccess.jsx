@@ -4,7 +4,7 @@ import { CheckCircle, Package, ArrowRight, Download, ShoppingBag, Sparkles } fro
 import api from '../../services/api';
 import toast from 'react-hot-toast';
 
-export default function PaymentSuccess() {
+const PaymentSuccess = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const [order, setOrder] = useState(null);
@@ -203,7 +203,7 @@ export default function PaymentSuccess() {
                         <ArrowRight size={18} />
                     </Link>
                     <Link
-                        to="/menu"
+                        to="/products"
                         className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-all shadow-sm hover:shadow active:scale-95 flex-1 justify-center"
                     >
                         <ShoppingBag size={18} />
@@ -221,3 +221,5 @@ export default function PaymentSuccess() {
         </div>
     );
 }
+
+export default PaymentSuccess;
