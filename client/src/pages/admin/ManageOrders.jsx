@@ -80,7 +80,7 @@ export default function ManageOrders() {
 
     if (loading) return (
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-            <div className="spinner spinner-lg"></div>
+            <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
         </div>
     );
 
@@ -92,13 +92,13 @@ export default function ManageOrders() {
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                         <div>
                             <h1 className="text-4xl md:text-5xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>
-                                Order <span className="gradient-text-warm">Management</span>
+                                Order <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Management</span>
                             </h1>
                             <p className="text-gray-600 mt-2">Manage and track all customer orders</p>
                         </div>
                         <button
                             onClick={fetchData}
-                            className="btn btn-outlined flex items-center gap-2"
+                            className="inline-flex items-center gap-2 px-6 py-3 text-base border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-purple-600 hover:text-purple-600 transition-all active:scale-95"
                         >
                             <RefreshCw size={18} /> Refresh
                         </button>
@@ -111,15 +111,15 @@ export default function ManageOrders() {
                             <div className="text-sm text-gray-600">Total Orders</div>
                         </div>
                         <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
-                            <div className="text-2xl font-bold text-secondary">{orders.filter(o => o.status === 'confirmed').length}</div>
+                            <div className="text-2xl font-bold text-gray-700">{orders.filter(o => o.status === 'confirmed').length}</div>
                             <div className="text-sm text-gray-600">Confirmed</div>
                         </div>
                         <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
-                            <div className="text-2xl font-bold text-warning">{orders.filter(o => o.status === 'manufacturing').length}</div>
+                            <div className="text-2xl font-bold text-yellow-600">{orders.filter(o => o.status === 'manufacturing').length}</div>
                             <div className="text-sm text-gray-600">Processing</div>
                         </div>
                         <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
-                            <div className="text-2xl font-bold text-success">{orders.filter(o => ['delivered', 'completed'].includes(o.status)).length}</div>
+                            <div className="text-2xl font-bold text-green-600">{orders.filter(o => ['delivered', 'completed'].includes(o.status)).length}</div>
                             <div className="text-sm text-gray-600">Completed</div>
                         </div>
                     </div>
@@ -202,7 +202,7 @@ export default function ManageOrders() {
                 <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={closeModal}>
                     <div className="bg-white rounded-2xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden" onClick={(e) => e.stopPropagation()}>
                         {/* Modal Header */}
-                        <div className="bg-gradient-primary p-6 text-white">
+                        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-6 text-white">
                             <div className="flex items-center justify-between">
                                 <div>
                                     <h2 className="text-2xl font-bold">Order #{selectedOrder._id.slice(-8).toUpperCase()}</h2>
@@ -255,8 +255,8 @@ export default function ManageOrders() {
                                         onClick={() => handleSendInvoice(selectedOrder._id)}
                                         disabled={selectedOrder.invoiceSent}
                                         className={`w-full px-6 py-2.5 rounded-lg flex items-center justify-center gap-2 font-medium shadow-md hover:shadow-lg transition-all ${selectedOrder.invoiceSent
-                                                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                                : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white'
+                                            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                            : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white'
                                             }`}
                                     >
                                         <Send size={18} />

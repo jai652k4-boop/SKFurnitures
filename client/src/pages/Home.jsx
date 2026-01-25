@@ -71,7 +71,7 @@ export default function Home() {
                 <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                     <div className="text-center">
                         {/* Sparkle Badge */}
-                        <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-md mb-6 animate-fade-in">
+                        <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-md mb-6 animate-[fadeIn_0.5s_ease-in]">
                             <Sparkles className="text-yellow-500" size={18} />
                             <span className="text-sm font-semibold text-gray-700">Premium Furniture Collection</span>
                         </div>
@@ -79,7 +79,7 @@ export default function Home() {
                         <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
                             Transform Your
                             <br />
-                            <span className="gradient-text-warm">Living Space</span>
+                            <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Living Space</span>
                         </h1>
 
                         <p className="text-xl md:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed">
@@ -88,11 +88,11 @@ export default function Home() {
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                            <Link to="/menu" className="btn btn-primary btn-lg group">
+                            <Link to="/menu" className="inline-flex items-center gap-2 px-8 py-4 text-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg active:scale-95 group">
                                 Explore Collection
                                 <ArrowRight className="group-hover:translate-x-1 transition-transform" size={20} />
                             </Link>
-                            <Link to="/location" className="btn btn-outlined btn-lg">
+                            <Link to="/location" className="inline-flex items-center gap-2 px-8 py-4 text-lg border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-purple-600 hover:text-purple-600 transition-all active:scale-95">
                                 Visit Showroom
                             </Link>
                         </div>
@@ -100,7 +100,7 @@ export default function Home() {
                         {/* Stats */}
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 max-w-4xl mx-auto">
                             {stats.map((stat, index) => (
-                                <div key={index} className="text-center animate-fade-in" style={{ animationDelay: `${index * 100}ms` }}>
+                                <div key={index} className="text-center animate-[fadeIn_0.5s_ease-in]" style={{ animationDelay: `${index * 100}ms` }}>
                                     <div className="flex items-center justify-center gap-1 text-3xl md:text-4xl font-bold text-gray-900 mb-1">
                                         {stat.value}
                                         {stat.icon && <span className="text-yellow-400">{stat.icon}</span>}
@@ -137,7 +137,7 @@ export default function Home() {
                             <Link
                                 key={index}
                                 to="/menu"
-                                className="group relative h-80 rounded-2xl overflow-hidden hover-lift"
+                                className="group relative h-80 rounded-2xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                             >
                                 <img
                                     src={category.image}
@@ -198,11 +198,11 @@ export default function Home() {
                         Browse our exclusive collection and bring your dream interior to life
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link to="/menu" className="btn bg-white text-purple-600 hover:bg-gray-100 btn-lg group">
+                        <Link to="/menu" className="inline-flex items-center gap-2 px-8 py-4 text-lg bg-white text-purple-600 hover:bg-gray-100 transition-all shadow-md hover:shadow-lg active:scale-95 rounded-lg group">
                             Start Shopping
                             <ArrowRight className="group-hover:translate-x-1 transition-transform" size={20} />
                         </Link>
-                        <Link to="/location" className="btn btn-outlined border-white text-white hover:bg-white/10 btn-lg">
+                        <Link to="/location" className="inline-flex items-center gap-2 px-8 py-4 text-lg border-2 border-white text-white hover:bg-white/10 font-semibold rounded-lg transition-all active:scale-95">
                             Visit Our Showroom
                         </Link>
                     </div>

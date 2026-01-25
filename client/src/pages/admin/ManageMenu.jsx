@@ -98,7 +98,7 @@ export default function ManageMenu() {
 
     if (loading) return (
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-            <div className="spinner spinner-lg"></div>
+            <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
         </div>
     );
 
@@ -110,13 +110,13 @@ export default function ManageMenu() {
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
                             <h1 className="text-4xl md:text-5xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>
-                                Manage <span className="gradient-text-warm">Products</span>
+                                Manage <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Products</span>
                             </h1>
                             <p className="text-gray-600 mt-2">{products.length} Total Products</p>
                         </div>
                         <button
                             onClick={() => { resetForm(); setShowModal(true); }}
-                            className="btn btn-primary flex items-center gap-2"
+                            className="inline-flex items-center gap-2 px-6 py-3 text-base bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg active:scale-95"
                         >
                             <Plus size={18} /> Add Product
                         </button>
@@ -126,13 +126,13 @@ export default function ManageMenu() {
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {products.length === 0 ? (
-                    <div className="card bg-white text-center py-16">
+                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 text-center py-16">
                         <Plus className="mx-auto text-gray-400 mb-4" size={64} />
                         <h3 className="text-xl font-bold text-gray-900 mb-2">No Products Yet</h3>
                         <p className="text-gray-600 mb-6">Start by adding your first product</p>
                         <button
                             onClick={() => { resetForm(); setShowModal(true); }}
-                            className="btn btn-primary inline-flex items-center gap-2"
+                            className="inline-flex items-center gap-2 px-8 py-4 text-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg active:scale-95"
                         >
                             <Plus size={18} /> Add Your First Product
                         </button>
@@ -140,7 +140,7 @@ export default function ManageMenu() {
                 ) : (
                     <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {products.map(product => (
-                            <div key={product._id} className="card bg-white hover-lift">
+                            <div key={product._id} className="bg-white rounded-xl shadow-md border border-gray-200 p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                                 <div className="aspect-square rounded-xl overflow-hidden bg-gray-50 mb-4">
                                     <img
                                         src={product.images?.[0] || 'https://placehold.co/400x400?text=No+Image'}
@@ -152,18 +152,18 @@ export default function ManageMenu() {
                                 <p className="text-gray-600 text-sm line-clamp-2 mb-3">{product.description}</p>
                                 <div className="flex items-center justify-between mb-3">
                                     <span className="text-2xl font-bold text-gray-900">₹{product.price.toLocaleString()}</span>
-                                    <span className="badge badge-info text-xs">{product.stock} in stock</span>
+                                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">{product.stock} in stock</span>
                                 </div>
                                 <div className="flex gap-2">
                                     <button
                                         onClick={() => handleEdit(product)}
-                                        className="btn btn-secondary text-sm flex-1 flex items-center justify-center gap-1"
+                                        className="inline-flex items-center gap-2 px-6 py-3 text-base bg-gray-700 text-white font-semibold rounded-lg hover:bg-gray-800 transition-all shadow-md hover:shadow-lg active:scale-95 flex-1 justify-center"
                                     >
                                         <Edit2 size={14} /> Edit
                                     </button>
                                     <button
                                         onClick={() => handleDelete(product._id)}
-                                        className="btn btn-outlined border-error text-error hover:bg-red-50 text-sm px-4"
+                                        className="inline-flex items-center gap-2 px-4 py-2 text-sm border-2 border-red-600 text-red-600 font-semibold rounded-lg hover:bg-red-50 transition-all active:scale-95 px-4"
                                     >
                                         <Trash2 size={14} />
                                     </button>
@@ -177,7 +177,7 @@ export default function ManageMenu() {
             {/* Modal */}
             {showModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
-                    <div className="card max-w-md w-full my-8">
+                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 max-w-md w-full my-8">
                         <div className="flex items-center justify-between mb-4">
                             <h2 className="text-xl font-bold">{editId ? 'Edit' : 'Add'} Product</h2>
                             <button onClick={() => setShowModal(false)}><X size={20} /></button>
@@ -211,7 +211,7 @@ export default function ManageMenu() {
                                     className="input"
                                 />
                             </div>
-                            <button type="submit" className="btn-primary w-full">{editId ? 'Update' : 'Create'}</button>
+                            <button type="submit" className="inline-flex items-center gap-2 px-6 py-3 text-base bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg active:scale-95 w-full justify-center">{editId ? 'Update' : 'Create'}</button>
                         </form>
                     </div>
                 </div>

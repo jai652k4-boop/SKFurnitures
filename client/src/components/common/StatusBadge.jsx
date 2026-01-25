@@ -4,61 +4,61 @@ export default function StatusBadge({ status }) {
     const statusConfig = {
         pending: {
             label: 'Pending',
-            className: 'badge-pending',
+            className: 'bg-yellow-100 text-yellow-700',
             icon: Clock,
             animate: true
         },
         confirmed: {
             label: 'Confirmed',
-            className: 'badge-confirmed',
+            className: 'bg-green-100 text-green-700',
             icon: CheckCircle,
             animate: false
         },
         accepted: {
             label: 'Accepted',
-            className: 'badge-confirmed',
+            className: 'bg-green-100 text-green-700',
             icon: CheckCircle,
             animate: false
         },
         processing: {
             label: 'Processing',
-            className: 'badge-processing',
+            className: 'bg-blue-100 text-blue-700',
             icon: Package,
             animate: true
         },
         manufacturing: {
             label: 'Manufacturing',
-            className: 'badge-processing',
+            className: 'bg-blue-100 text-blue-700',
             icon: Package,
             animate: true
         },
         shipped: {
             label: 'Shipped',
-            className: 'badge-shipped',
+            className: 'bg-indigo-100 text-indigo-700',
             icon: Truck,
             animate: false
         },
         ready: {
             label: 'Ready',
-            className: 'badge-shipped',
+            className: 'bg-indigo-100 text-indigo-700',
             icon: CheckCircle,
             animate: false
         },
         delivered: {
             label: 'Delivered',
-            className: 'badge-delivered',
+            className: 'bg-green-100 text-green-700',
             icon: CheckCircle,
             animate: false
         },
         completed: {
             label: 'Completed',
-            className: 'badge-completed',
+            className: 'bg-green-100 text-green-700',
             icon: CheckCircle,
             animate: false
         },
         cancelled: {
             label: 'Cancelled',
-            className: 'badge-cancelled',
+            className: 'bg-red-100 text-red-700',
             icon: XCircle,
             animate: false
         }
@@ -66,7 +66,7 @@ export default function StatusBadge({ status }) {
 
     const config = statusConfig[status] || {
         label: status,
-        className: 'badge-info',
+        className: 'bg-blue-100 text-blue-700',
         icon: AlertCircle,
         animate: false
     };
@@ -74,7 +74,7 @@ export default function StatusBadge({ status }) {
     const Icon = config.icon;
 
     return (
-        <span className={`badge ${config.className} ${config.animate ? 'animate-pulse' : ''}`}>
+        <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold ${config.className} ${config.animate ? 'animate-pulse' : ''}`}>
             <Icon size={14} />
             {config.label}
         </span>

@@ -56,7 +56,7 @@ export default function ProductReview({ product, canReviewData, onReviewSubmitte
                 {/* Overall Rating */}
                 <div className="md:col-span-1">
                     <div className="flex items-center gap-3 mb-6">
-                        <div className="flex items-center gap-2 bg-success text-white px-4 py-2 rounded text-2xl font-bold">
+                        <div className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded text-2xl font-bold">
                             {totalReviews > 0 ? product.averageRating.toFixed(1) : '0.0'}
                             <Star size={20} fill="currentColor" />
                         </div>
@@ -86,7 +86,7 @@ export default function ProductReview({ product, canReviewData, onReviewSubmitte
                                         </div>
                                         <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
                                             <div
-                                                className="h-full bg-success transition-all"
+                                                className="h-full bg-green-600 transition-all"
                                                 style={{ width: `${percentage}%` }}
                                             />
                                         </div>
@@ -102,8 +102,8 @@ export default function ProductReview({ product, canReviewData, onReviewSubmitte
                 <div className="md:col-span-2">
                     {isSignedIn ? (
                         canReviewData?.hasReviewed ? (
-                            <div className="bg-success/10 border border-success/30 rounded-lg p-4">
-                                <div className="flex items-center gap-2 text-success">
+                            <div className="bg-green-50 border border-green-300 rounded-lg p-4">
+                                <div className="flex items-center gap-2 text-green-600">
                                     <Check size={20} />
                                     <p className="font-medium">You have already reviewed this product</p>
                                 </div>
@@ -129,7 +129,7 @@ export default function ProductReview({ product, canReviewData, onReviewSubmitte
                                                 >
                                                     <Star
                                                         size={32}
-                                                        className="text-warning"
+                                                        className="text-yellow-600"
                                                         fill={star <= (hoveredRating || reviewData.rating) ? '#F59E0B' : 'none'}
                                                         stroke={star <= (hoveredRating || reviewData.rating) ? '#F59E0B' : '#D1D5DB'}
                                                     />
@@ -153,7 +153,7 @@ export default function ProductReview({ product, canReviewData, onReviewSubmitte
                                     <button
                                         type="submit"
                                         disabled={loadingReview}
-                                        className="btn btn-primary"
+                                        className="inline-flex items-center gap-2 px-6 py-3 text-base bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg active:scale-95"
                                     >
                                         {loadingReview ? 'Submitting...' : 'Submit Review'}
                                     </button>
@@ -165,7 +165,7 @@ export default function ProductReview({ product, canReviewData, onReviewSubmitte
                             <p className="text-gray-700 mb-3">
                                 Please sign in to write a review
                             </p>
-                            <Link to="/login" className="btn btn-secondary btn-sm">
+                            <Link to="/login" className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-gray-700 text-white font-semibold rounded-lg hover:bg-gray-800 transition-all shadow-md hover:shadow-lg active:scale-95">
                                 Sign In
                             </Link>
                         </div>
@@ -186,7 +186,7 @@ export default function ProductReview({ product, canReviewData, onReviewSubmitte
                                 <div className="flex items-start justify-between mb-3">
                                     {/* User Info */}
                                     <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-full bg-gradient-primary flex items-center justify-center text-white font-semibold">
+                                        <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center justify-center text-white font-semibold">
                                             {review.user?.name?.[0]?.toUpperCase() || 'U'}
                                         </div>
                                         <div>
@@ -204,7 +204,7 @@ export default function ProductReview({ product, canReviewData, onReviewSubmitte
                                     </div>
 
                                     {/* Rating */}
-                                    <div className="flex items-center gap-1 bg-success text-white px-3 py-1 rounded text-sm font-semibold">
+                                    <div className="flex items-center gap-1 bg-green-600 text-white px-3 py-1 rounded text-sm font-semibold">
                                         {review.rating}
                                         <Star size={12} fill="currentColor" />
                                     </div>

@@ -19,7 +19,7 @@ export default function OrderTracking() {
     if (!order) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <div className="spinner spinner-lg"></div>
+                <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
             </div>
         );
     }
@@ -64,7 +64,7 @@ export default function OrderTracking() {
                     {/* Main Content */}
                     <div className="lg:col-span-2 space-y-6">
                         {/* Timeline */}
-                        <div className="card bg-white">
+                        <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
                             <h2 className="text-2xl font-bold mb-6" style={{ fontFamily: 'Playfair Display, serif' }}>
                                 Order Progress
                             </h2>
@@ -82,7 +82,7 @@ export default function OrderTracking() {
                                             {index < steps.length - 1 && (
                                                 <div className="absolute left-6 top-14 bottom-0 w-0.5 -ml-px">
                                                     <div
-                                                        className={`h-full transition-all duration-500 ${isCompleted ? 'bg-gradient-primary' : 'bg-gray-200'
+                                                        className={`h-full transition-all duration-500 ${isCompleted ? 'bg-gradient-to-r from-purple-600 to-indigo-600' : 'bg-gray-200'
                                                             }`}
                                                     />
                                                 </div>
@@ -93,7 +93,7 @@ export default function OrderTracking() {
                                                 {/* Icon Circle */}
                                                 <div
                                                     className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${isCompleted
-                                                        ? 'bg-gradient-primary text-white shadow-lg shadow-purple-500/30'
+                                                        ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg shadow-purple-500/30'
                                                         : isCurrent
                                                             ? 'bg-secondary text-white shadow-lg animate-pulse'
                                                             : 'bg-gray-100 text-gray-400'
@@ -130,7 +130,7 @@ export default function OrderTracking() {
                         </div>
 
                         {/* Order Items */}
-                        <div className="card bg-white">
+                        <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
                             <h2 className="text-2xl font-bold mb-6" style={{ fontFamily: 'Playfair Display, serif' }}>
                                 Order Items
                             </h2>
@@ -156,7 +156,7 @@ export default function OrderTracking() {
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <p className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                                            <p className="text-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                                                 ₹{(item.price * item.quantity).toLocaleString()}
                                             </p>
                                             <p className="text-xs text-gray-500 mt-1">Total</p>
@@ -170,7 +170,7 @@ export default function OrderTracking() {
                     {/* Sidebar */}
                     <div className="space-y-6">
                         {/* Order Summary */}
-                        <div className="card bg-white sticky top-24">
+                        <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 sticky top-24">
                             <h3 className="text-xl font-bold mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
                                 Order Summary
                             </h3>
@@ -199,13 +199,13 @@ export default function OrderTracking() {
                                 </div>
                                 <div className="flex justify-between text-gray-700">
                                     <span>Delivery</span>
-                                    <span className={`font-semibold ${order.deliveryCharge === 0 ? 'text-success' : ''}`}>
+                                    <span className={`font-semibold ${order.deliveryCharge === 0 ? 'text-green-600' : ''}`}>
                                         {order.deliveryCharge === 0 ? 'FREE' : `₹${order.deliveryCharge?.toLocaleString()}`}
                                     </span>
                                 </div>
                                 <div className="flex justify-between items-center pt-3 border-t border-gray-200">
                                     <span className="text-lg font-bold text-gray-900">Total</span>
-                                    <span className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                                    <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                                         ₹{order.totalAmount?.toLocaleString()}
                                     </span>
                                 </div>
@@ -213,15 +213,15 @@ export default function OrderTracking() {
 
                             {/* Payment Status */}
                             {order.paidAmount && (
-                                <div className="bg-success/10 border border-success/20 rounded-xl p-3 mb-4">
+                                <div className="bg-green-50 border border-green-200 rounded-xl p-3 mb-4">
                                     <div className="flex justify-between text-sm mb-1">
                                         <span className="text-gray-700">Paid Amount</span>
-                                        <span className="font-bold text-success">₹{order.paidAmount.toLocaleString()}</span>
+                                        <span className="font-bold text-green-600">₹{order.paidAmount.toLocaleString()}</span>
                                     </div>
                                     {order.remainingAmount > 0 && (
                                         <div className="flex justify-between text-sm">
                                             <span className="text-gray-700">Remaining</span>
-                                            <span className="font-bold text-warning">₹{order.remainingAmount.toLocaleString()}</span>
+                                            <span className="font-bold text-yellow-600">₹{order.remainingAmount.toLocaleString()}</span>
                                         </div>
                                     )}
                                 </div>
@@ -233,7 +233,7 @@ export default function OrderTracking() {
                                     onClick={() => {
                                         toast.success('Invoice download feature coming soon!');
                                     }}
-                                    className="w-full btn btn-secondary flex items-center justify-center gap-2"
+                                    className="w-full inline-flex items-center gap-2 px-6 py-3 text-base bg-gray-700 text-white font-semibold rounded-lg hover:bg-gray-800 transition-all shadow-md hover:shadow-lg active:scale-95 justify-center"
                                 >
                                     <FileText size={18} />
                                     View Invoice
@@ -242,7 +242,7 @@ export default function OrderTracking() {
                         </div>
 
                         {/* Delivery Address */}
-                        <div className="card bg-white">
+                        <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
                             <h3 className="text-xl font-bold mb-4 flex items-center gap-2" style={{ fontFamily: 'Playfair Display, serif' }}>
                                 <MapPin size={20} className="text-secondary" />
                                 Delivery Address

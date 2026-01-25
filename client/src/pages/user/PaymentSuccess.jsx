@@ -40,7 +40,7 @@ export default function PaymentSuccess() {
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <div className="spinner spinner-lg"></div>
+                <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
             </div>
         );
     }
@@ -71,7 +71,7 @@ export default function PaymentSuccess() {
                     <p className="text-xl text-gray-600 mb-2">
                         Thank you for your purchase
                     </p>
-                    <div className="inline-flex items-center gap-2 bg-success/10 border border-success/20 text-success px-4 py-2 rounded-full">
+                    <div className="inline-flex items-center gap-2 bg-green-50 border border-green-200 text-green-600 px-4 py-2 rounded-full">
                         <Sparkles size={16} />
                         <span className="font-semibold">Payment Successful</span>
                     </div>
@@ -79,11 +79,11 @@ export default function PaymentSuccess() {
 
                 {/* Order Details Card */}
                 {order && (
-                    <div className="card bg-white shadow-xl mb-6 animate-fade-in">
+                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 shadow-xl mb-6 animate-[fadeIn_0.5s_ease-in]">
                         {/* Order Header */}
                         <div className="flex items-center justify-between mb-6 pb-6 border-b border-gray-200">
                             <div className="flex items-center gap-3">
-                                <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center">
+                                <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center justify-center">
                                     <Package className="text-white" size={24} />
                                 </div>
                                 <div>
@@ -101,7 +101,7 @@ export default function PaymentSuccess() {
                                     </p>
                                 </div>
                             </div>
-                            <button className="btn btn-outlined btn-sm flex items-center gap-2">
+                            <button className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-all shadow-sm hover:shadow active:scale-95">
                                 <Download size={16} />
                                 Invoice
                             </button>
@@ -144,7 +144,7 @@ export default function PaymentSuccess() {
                                 <span>Delivery Charge</span>
                                 <span className="font-semibold">
                                     {order.deliveryCharge === 0 ? (
-                                        <span className="text-success">FREE</span>
+                                        <span className="text-green-600">FREE</span>
                                     ) : (
                                         `₹${order.deliveryCharge.toLocaleString()}`
                                     )}
@@ -152,7 +152,7 @@ export default function PaymentSuccess() {
                             </div>
                             <div className="flex justify-between items-center pt-3 border-t border-gray-200">
                                 <span className="text-lg font-bold text-gray-900">Total Amount</span>
-                                <span className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                                <span className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                                     ₹{order.totalAmount.toLocaleString()}
                                 </span>
                             </div>
@@ -162,18 +162,18 @@ export default function PaymentSuccess() {
                         <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-4 mb-6">
                             <div className="flex justify-between items-center mb-2">
                                 <span className="font-semibold text-gray-900">Payment Status</span>
-                                <span className="badge badge-success">
+                                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
                                     {order.paymentStatus === 'completed' ? 'Fully Paid' : 'Partially Paid'}
                                 </span>
                             </div>
                             <div className="flex justify-between text-sm">
                                 <span className="text-gray-600">Paid Amount</span>
-                                <span className="font-bold text-success">₹{order.paidAmount.toLocaleString()}</span>
+                                <span className="font-bold text-green-600">₹{order.paidAmount.toLocaleString()}</span>
                             </div>
                             {order.remainingAmount > 0 && (
                                 <div className="flex justify-between text-sm mt-1">
                                     <span className="text-gray-600">Remaining Amount</span>
-                                    <span className="font-bold text-warning">₹{order.remainingAmount.toLocaleString()}</span>
+                                    <span className="font-bold text-yellow-600">₹{order.remainingAmount.toLocaleString()}</span>
                                 </div>
                             )}
                         </div>
@@ -197,14 +197,14 @@ export default function PaymentSuccess() {
                 <div className="flex flex-col sm:flex-row gap-4 mb-6">
                     <Link
                         to={order ? `/orders/${order._id}` : '/orders'}
-                        className="btn btn-primary flex-1 justify-center flex items-center gap-2"
+                        className="inline-flex items-center gap-2 px-8 py-4 text-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg active:scale-95 flex-1 justify-center"
                     >
                         Track Order
                         <ArrowRight size={18} />
                     </Link>
                     <Link
                         to="/menu"
-                        className="btn btn-outlined flex-1 justify-center flex items-center gap-2"
+                        className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-all shadow-sm hover:shadow active:scale-95 flex-1 justify-center"
                     >
                         <ShoppingBag size={18} />
                         Continue Shopping

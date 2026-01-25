@@ -56,7 +56,7 @@ export default function Cart() {
                     <p className="text-gray-600 mb-8 text-lg">
                         Looks like you haven't added any furniture yet. Explore our collection to find pieces you'll love!
                     </p>
-                    <Link to="/menu" className="btn btn-primary btn-lg inline-flex items-center gap-2">
+                    <Link to="/menu" className="inline-flex items-center gap-2 px-8 py-4 text-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg active:scale-95">
                         <ShoppingBag size={20} />
                         Browse Collection
                     </Link>
@@ -73,7 +73,7 @@ export default function Cart() {
                     <div className="flex items-center justify-between mb-4">
                         <div>
                             <h1 className="text-4xl font-bold mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
-                                Shopping <span className="gradient-text-warm">Cart</span>
+                                Shopping <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Cart</span>
                             </h1>
                             <p className="text-gray-600">
                                 {totalQuantity} {totalQuantity === 1 ? 'item' : 'items'} in your cart
@@ -81,7 +81,7 @@ export default function Cart() {
                         </div>
                         <button
                             onClick={handleClearCart}
-                            className="btn btn-outlined btn-sm text-error border-error hover:bg-red-50 flex items-center gap-2"
+                            className="inline-flex items-center gap-2 px-4 py-2 text-sm border-2 border-red-600 text-red-600 font-semibold rounded-lg hover:bg-red-50 transition-all active:scale-95"
                         >
                             <Trash2 size={16} />
                             Clear Cart
@@ -95,7 +95,7 @@ export default function Cart() {
                         {items.map((item, index) => (
                             <div
                                 key={item.productId}
-                                className="card flex flex-col sm:flex-row gap-4 bg-white animate-fade-in hover-lift"
+                                className="bg-white rounded-xl shadow-md border border-gray-200 p-6 flex flex-col sm:flex-row gap-4 animate-[fadeIn_0.5s_ease-in] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                                 style={{ animationDelay: `${index * 50}ms` }}
                             >
                                 {/* Product Image */}
@@ -106,7 +106,7 @@ export default function Cart() {
                                     <img
                                         src={item.image || 'https://placehold.co/200x200?text=No+Image'}
                                         alt={item.name}
-                                        className="w-full h-full object-cover"
+                                        className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
                                     />
                                 </Link>
 
@@ -164,7 +164,7 @@ export default function Cart() {
                         {/* Continue Shopping */}
                         <Link
                             to="/menu"
-                            className="btn btn-outlined w-full flex items-center justify-center gap-2"
+                            className="inline-flex items-center gap-2 px-6 py-3 text-base border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-purple-600 hover:text-purple-600 transition-all active:scale-95 w-full justify-center"
                         >
                             <ArrowRight size={18} className="rotate-180" />
                             Continue Shopping
@@ -173,7 +173,7 @@ export default function Cart() {
 
                     {/* Order Summary - Sticky on Desktop */}
                     <div className="lg:col-span-1">
-                        <div className="card bg-white sticky top-24">
+                        <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 sticky top-24">
                             <h3 className="text-2xl font-bold mb-6" style={{ fontFamily: 'Playfair Display, serif' }}>
                                 Order Summary
                             </h3>
@@ -223,7 +223,7 @@ export default function Cart() {
                             {/* Checkout Button */}
                             <button
                                 onClick={handleCheckout}
-                                className="btn btn-primary w-full btn-lg flex items-center justify-center gap-2 mb-4"
+                                className="inline-flex items-center gap-2 px-8 py-4 text-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg active:scale-95 w-full justify-center mb-4"
                             >
                                 Proceed to Checkout
                                 <ArrowRight size={20} />

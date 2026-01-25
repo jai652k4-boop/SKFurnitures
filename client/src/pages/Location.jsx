@@ -8,7 +8,7 @@ export default function Location() {
             <div className="bg-white border-b border-gray-200">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
                     <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
-                        Visit Our <span className="gradient-text-warm">Showroom</span>
+                        Visit Our <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Showroom</span>
                     </h1>
                     <p className="text-lg text-gray-600 max-w-2xl mx-auto">
                         Experience our premium furniture collection in person. Our experts are ready to help you find the perfect pieces for your space.
@@ -25,8 +25,8 @@ export default function Location() {
                 {/* Contact Information */}
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {/* Address */}
-                    <div className="card bg-white hover-lift">
-                        <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center mb-4">
+                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center justify-center mb-4">
                             <MapPin className="text-white" size={24} />
                         </div>
                         <h3 className="text-xl font-bold mb-3 text-gray-900">Address</h3>
@@ -39,7 +39,7 @@ export default function Location() {
                             href="https://maps.google.com/?q=Erode,Tamil+Nadu"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="mt-4 inline-flex items-center gap-2 text-secondary hover:text-primary transition font-medium"
+                            className="text-lg font-semibold text-gray-700 hover:text-purple-600 transition break-all"
                         >
                             <Navigation size={16} />
                             Get Directions
@@ -47,8 +47,8 @@ export default function Location() {
                     </div>
 
                     {/* Hours */}
-                    <div className="card bg-white hover-lift">
-                        <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center mb-4">
+                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center justify-center mb-4">
                             <Clock className="text-white" size={24} />
                         </div>
                         <h3 className="text-xl font-bold mb-3 text-gray-900">Business Hours</h3>
@@ -62,8 +62,8 @@ export default function Location() {
                                 <span className="font-semibold">10 AM - 6 PM</span>
                             </div>
                             <div className="mt-3 pt-3 border-t border-gray-200">
-                                <span className="inline-flex items-center gap-2 text-success font-semibold">
-                                    <div className="w-2 h-2 rounded-full bg-success animate-pulse"></div>
+                                <span className="inline-flex items-center gap-2 text-green-600 font-semibold">
+                                    <div className="w-2 h-2 rounded-full bg-green-600 animate-pulse"></div>
                                     Open Now
                                 </span>
                             </div>
@@ -71,8 +71,8 @@ export default function Location() {
                     </div>
 
                     {/* Phone */}
-                    <div className="card bg-white hover-lift">
-                        <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center mb-4">
+                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center justify-center mb-4">
                             <Phone className="text-white" size={24} />
                         </div>
                         <h3 className="text-xl font-bold mb-3 text-gray-900">Phone</h3>
@@ -91,8 +91,8 @@ export default function Location() {
                     </div>
 
                     {/* Email */}
-                    <div className="card bg-white hover-lift">
-                        <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center mb-4">
+                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center justify-center mb-4">
                             <Mail className="text-white" size={24} />
                         </div>
                         <h3 className="text-xl font-bold mb-3 text-gray-900">Email</h3>
@@ -123,14 +123,14 @@ export default function Location() {
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <a
                                 href="tel:+919876543210"
-                                className="btn bg-white text-purple-600 hover:bg-gray-100 btn-lg"
+                                className="inline-flex items-center gap-2 px-8 py-4 text-lg bg-white text-purple-600 hover:bg-gray-100 transition-all shadow-md hover:shadow-lg active:scale-95 rounded-lg"
                             >
                                 <Phone size={20} />
                                 Call to Book
                             </a>
                             <a
                                 href="mailto:info@skfurniture.com"
-                                className="btn btn-outlined border-white text-white hover:bg-white/10 btn-lg"
+                                className="inline-flex items-center gap-2 px-8 py-4 text-lg border-2 border-white text-white hover:bg-white/10 font-semibold rounded-lg transition-all active:scale-95"
                             >
                                 <Mail size={20} />
                                 Email Us

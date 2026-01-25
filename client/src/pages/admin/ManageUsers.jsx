@@ -47,7 +47,7 @@ export default function ManageUsers() {
     if (loading) {
         return (
             <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <div className="spinner spinner-lg"></div>
+                <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
             </div>
         );
     }
@@ -60,13 +60,13 @@ export default function ManageUsers() {
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
                             <h1 className="text-4xl md:text-5xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>
-                                User <span className="gradient-text-warm">Management</span>
+                                User <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Management</span>
                             </h1>
                             <p className="text-gray-600 mt-2">View and manage customer information</p>
                         </div>
                         <button
                             onClick={fetchUsers}
-                            className="btn btn-outlined flex items-center gap-2"
+                            className="inline-flex items-center gap-2 px-6 py-3 text-base border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-purple-600 hover:text-purple-600 transition-all active:scale-95"
                         >
                             <RefreshCw size={18} /> Refresh
                         </button>
@@ -89,7 +89,7 @@ export default function ManageUsers() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Stats Summary */}
                 <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <div className="card bg-white">
+                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
                         <div className="flex items-center gap-3">
                             <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center">
                                 <Users className="text-purple-600" size={24} />
@@ -100,7 +100,7 @@ export default function ManageUsers() {
                             </div>
                         </div>
                     </div>
-                    <div className="card bg-white">
+                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
                         <div className="flex items-center gap-3">
                             <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
                                 <ShoppingBag className="text-green-600" size={24} />
@@ -111,7 +111,7 @@ export default function ManageUsers() {
                             </div>
                         </div>
                     </div>
-                    <div className="card bg-white">
+                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
                         <div className="flex items-center gap-3">
                             <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
                                 <TrendingUp className="text-blue-600" size={24} />
@@ -124,7 +124,7 @@ export default function ManageUsers() {
                             </div>
                         </div>
                     </div>
-                    <div className="card bg-white">
+                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
                         <div className="flex items-center gap-3">
                             <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center">
                                 <DollarSign className="text-orange-600" size={24} />
@@ -168,7 +168,7 @@ export default function ManageUsers() {
                                         <tr key={user._id} className="border-b border-gray-100 hover:bg-gray-50 transition">
                                             <td className="py-4 px-6">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-10 h-10 rounded-full bg-gradient-primary flex items-center justify-center text-white font-bold">
+                                                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center justify-center text-white font-bold">
                                                         {user.name?.charAt(0) || 'U'}
                                                     </div>
                                                     <div>

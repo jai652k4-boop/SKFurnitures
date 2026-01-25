@@ -11,7 +11,7 @@ export default function ProtectedRoute({ children, role }) {
     if (!isLoaded) {
         return (
             <div className="min-h-screen flex items-center justify-center">
-                <div className="spinner"></div>
+                <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
             </div>
         );
     }
@@ -25,7 +25,7 @@ export default function ProtectedRoute({ children, role }) {
     if (isLoading) {
         return (
             <div className="min-h-screen flex items-center justify-center">
-                <div className="spinner"></div>
+                <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
             </div>
         );
     }

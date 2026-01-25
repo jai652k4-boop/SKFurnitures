@@ -26,7 +26,7 @@ export default function AdminDashboard() {
         return (
             <div className="min-h-screen bg-gray-50 py-8 px-4">
                 <div className="max-w-7xl mx-auto">
-                    <div className="skeleton h-10 w-64 mb-8"></div>
+                    <div className="bg-gray-200 rounded h-10 w-64 mb-8 animate-pulse"></div>
                     <div className="grid md:grid-cols-4 gap-6 mb-8">
                         <LoadingSkeleton type="card" count={4} />
                     </div>
@@ -106,7 +106,7 @@ export default function AdminDashboard() {
             <div className="bg-white border-b border-gray-200">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                     <h1 className="text-4xl md:text-5xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>
-                        Admin <span className="gradient-text-warm">Dashboard</span>
+                        Admin <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Dashboard</span>
                     </h1>
                     <p className="text-gray-600 mt-2">Monitor your furniture store performance</p>
                 </div>
@@ -120,7 +120,7 @@ export default function AdminDashboard() {
                         return (
                             <div
                                 key={index}
-                                className="card bg-white hover-lift animate-fade-in"
+                                className="bg-white rounded-xl shadow-md border border-gray-200 p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 animate-[fadeIn_0.5s_ease-in]"
                                 style={{ animationDelay: `${index * 50}ms` }}
                             >
                                 <div className="flex items-start justify-between mb-4">
@@ -143,14 +143,14 @@ export default function AdminDashboard() {
                             <Link
                                 key={index}
                                 to={link.link}
-                                className="card bg-white hover-lift hover:border-secondary/30 transition group"
+                                className="bg-white rounded-xl shadow-md border border-gray-200 p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 hover:border-gray-700/30 group"
                             >
                                 <div className="flex items-center gap-4 mb-4">
-                                    <div className={`w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center group-hover:scale-110 transition`}>
+                                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center justify-center group-hover:scale-110 transition`}>
                                         <Icon className="text-white" size={24} />
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="font-bold text-lg text-gray-900 group-hover:text-secondary transition">
+                                        <h3 className="font-bold text-lg text-gray-900 group-hover:text-gray-700 transition">
                                             {link.title}
                                         </h3>
                                         <p className="text-sm text-gray-600">{link.description}</p>
@@ -166,12 +166,12 @@ export default function AdminDashboard() {
                 </div>
 
                 {/* Recent Orders */}
-                <div className="card bg-white">
+                <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
                     <div className="flex items-center justify-between mb-6">
                         <h2 className="text-2xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>
                             Recent Orders
                         </h2>
-                        <Link to="/admin/orders" className="btn btn-outlined btn-sm">
+                        <Link to="/admin/orders" className="inline-flex items-center gap-2 px-4 py-2 text-sm border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-purple-600 hover:text-purple-600 transition-all active:scale-95">
                             View All
                         </Link>
                     </div>

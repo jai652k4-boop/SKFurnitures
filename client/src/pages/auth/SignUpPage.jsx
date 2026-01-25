@@ -9,7 +9,7 @@ export default function SignUpPage() {
             <div className="max-w-md w-full">
                 <div className="text-center mb-8">
                     <h1 className="text-4xl font-bold mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
-                        Join <span className="gradient-text-warm">SK Furniture</span>
+                        Join <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>SK Furniture</span>
                     </h1>
                     <p className="text-gray-600">
                         Create an account to start shopping premium furniture

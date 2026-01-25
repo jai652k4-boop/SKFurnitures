@@ -31,7 +31,7 @@ export default function PaymentFailed() {
                 </div>
 
                 {/* Information Card */}
-                <div className="card bg-white shadow-xl mb-6 animate-fade-in">
+                <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 shadow-xl mb-6 animate-[fadeIn_0.5s_ease-in]">
                     <div className="flex items-start gap-4 mb-6">
                         <div className="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center flex-shrink-0">
                             <HelpCircle className="text-red-600" size={24} />
@@ -47,8 +47,8 @@ export default function PaymentFailed() {
                     </div>
 
                     {!canceled && (
-                        <div className="bg-warning/10 border border-warning/30 rounded-xl p-4 flex items-start gap-3">
-                            <Mail className="text-warning flex-shrink-0 mt-0.5" size={20} />
+                        <div className="bg-yellow-50 border border-yellow-300 rounded-xl p-4 flex items-start gap-3">
+                            <Mail className="text-yellow-600 flex-shrink-0 mt-0.5" size={20} />
                             <div>
                                 <p className="font-semibold text-gray-900 mb-1">Important Note</p>
                                 <p className="text-sm text-gray-700">
@@ -88,14 +88,14 @@ export default function PaymentFailed() {
                 <div className="grid sm:grid-cols-2 gap-4 mb-6">
                     <button
                         onClick={() => navigate('/cart')}
-                        className="btn btn-primary justify-center flex items-center gap-2"
+                        className="inline-flex items-center gap-2 px-8 py-4 text-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg active:scale-95 justify-center"
                     >
                         <ShoppingCart size={18} />
                         Return to Cart
                     </button>
                     <button
                         onClick={() => navigate('/menu')}
-                        className="btn btn-outlined justify-center flex items-center gap-2"
+                        className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-all shadow-sm hover:shadow active:scale-95 justify-center"
                     >
                         <ArrowLeft size={18} />
                         Continue Shopping
@@ -111,14 +111,14 @@ export default function PaymentFailed() {
                     <div className="flex flex-col sm:flex-row gap-3 justify-center">
                         <a
                             href="mailto:support@skfurniture.com"
-                            className="btn btn-outlined btn-sm flex items-center justify-center gap-2"
+                            className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-all shadow-sm hover:shadow active:scale-95 justify-center"
                         >
                             <Mail size={16} />
                             Email Support
                         </a>
                         <a
                             href="tel:+919876543210"
-                            className="btn btn-outlined btn-sm flex items-center justify-center gap-2"
+                            className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-all shadow-sm hover:shadow active:scale-95 justify-center"
                         >
                             📞 Call Us
                         </a>

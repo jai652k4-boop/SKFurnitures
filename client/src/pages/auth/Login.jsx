@@ -36,9 +36,9 @@ export default function Login() {
 
     return (
         <div className="min-h-screen flex items-center justify-center px-4">
-            <div className="card max-w-md w-full">
+            <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 max-w-md w-full">
                 <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold">Welcome <span className="gradient-text">Back</span></h1>
+                    <h1 className="text-3xl font-bold">Welcome <span className="bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Back</span></h1>
                     <p className="text-gray-400 mt-2">Login to your account</p>
                 </div>
 
@@ -88,7 +88,7 @@ export default function Login() {
                         </div>
                     </div>
 
-                    <button type="submit" disabled={isLoading} className="btn-primary w-full mt-6">
+                    <button type="submit" disabled={isLoading} className="inline-flex items-center gap-2 px-8 py-4 text-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg active:scale-95 w-full mt-6">
                         {isLoading ? 'Logging in...' : 'Login'}
                     </button>
                 </form>

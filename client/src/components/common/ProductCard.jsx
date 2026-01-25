@@ -40,7 +40,7 @@ export default function ProductCard({ product }) {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            <div className="card overflow-hidden bg-white rounded-xl transition-all hover-lift">
+            <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 overflow-hidden transition-all hover:shadow-xl hover:-translate-y-1 duration-300">
                 {/* Image Container */}
                 <div className="relative h-64 -mx-6 -mt-6 mb-4 overflow-hidden bg-gray-100">
                     <img
@@ -54,13 +54,13 @@ export default function ProductCard({ product }) {
 
                     {/* Stock Badge */}
                     {product.stock < 10 && product.stock > 0 && (
-                        <div className="absolute top-3 left-3 badge-warning animate-pulse">
+                        <div className="absolute top-3 left-3 inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700 animate-pulse">
                             Only {product.stock} left
                         </div>
                     )}
 
                     {product.stock === 0 && (
-                        <div className="absolute top-3 left-3 badge-error">
+                        <div className="absolute top-3 left-3 inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">
                             Out of Stock
                         </div>
                     )}
@@ -82,19 +82,17 @@ export default function ProductCard({ product }) {
                         >
                             <Heart size={20} className="text-gray-700" />
                         </button>
-                        <Link
-                            to={`/products/${product._id}`}
-                            className="bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition transform hover:scale-110"
-                            onClick={(e) => e.stopPropagation()}
-                            title="Quick View"
+                        <div
+                            className="bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition transform hover:scale-110 cursor-pointer"
+                            title="View Details"
                         >
                             <Eye size={20} className="text-gray-700" />
-                        </Link>
+                        </div>
                     </div>
 
                     {/* In Cart Indicator */}
                     {inCart && (
-                        <div className="absolute bottom-3 left-3 bg-success text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                        <div className="absolute bottom-3 left-3 bg-green-600 text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
                             <ShoppingCart size={14} />
                             In Cart ({inCart.quantity})
                         </div>
@@ -103,7 +101,7 @@ export default function ProductCard({ product }) {
 
                 {/* Product Info */}
                 <div className="space-y-3">
-                    <h3 className="font-bold text-lg text-gray-900 line-clamp-1 group-hover:text-secondary transition">
+                    <h3 className="font-bold text-lg text-gray-900 line-clamp-1 group-hover:text-gray-700 transition">
                         {product.name}
                     </h3>
 
@@ -135,7 +133,7 @@ export default function ProductCard({ product }) {
                     {/* Price and Action */}
                     <div className="flex items-center justify-between pt-2 border-t border-gray-100">
                         <div>
-                            <p className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                            <p className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                                 ₹{product.price.toLocaleString()}
                             </p>
                             {product.size && (
@@ -149,10 +147,9 @@ export default function ProductCard({ product }) {
                             onClick={handleAddToCart}
                             disabled={product.stock === 0}
                             className={`
-                                btn btn-primary btn-sm
-                                ${inCart ? 'bg-success hover:bg-success' : ''}
+                                inline-flex items-center gap-2 px-4 py-2 text-sm bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg active:scale-95
+                                ${inCart ? '!bg-green-600 hover:!bg-green-600' : ''}
                                 ${product.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}
-                                shadow-md hover:shadow-lg
                             `}
                             title={product.stock === 0 ? 'Out of Stock' : inCart ? 'Add More' : 'Add to Cart'}
                         >

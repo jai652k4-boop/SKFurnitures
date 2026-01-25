@@ -149,7 +149,7 @@ export default function Checkout() {
             <div className="max-w-2xl mx-auto">
                 <h1 className="text-3xl font-bold mb-8">Checkout</h1>
 
-                <div className="card">
+                <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
                     {/* Order Summary */}
                     <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
                     <div className="space-y-3 mb-6">
@@ -167,7 +167,7 @@ export default function Checkout() {
                             <h3 className="text-md font-semibold">Delivery Address</h3>
                             <button
                                 onClick={() => setShowAddressForm(!showAddressForm)}
-                                className="btn-secondary text-sm flex items-center gap-1"
+                                className="inline-flex items-center gap-2 px-6 py-3 text-base bg-gray-700 text-white font-semibold rounded-lg hover:bg-gray-800 transition-all shadow-md hover:shadow-lg active:scale-95 text-sm"
                             >
                                 <Plus size={16} /> Add New
                             </button>
@@ -251,12 +251,12 @@ export default function Checkout() {
                                     />
                                 </div>
                                 <div className="flex gap-2 mt-3">
-                                    <button onClick={handleSaveNewAddress} className="btn-primary text-sm">
+                                    <button onClick={handleSaveNewAddress} className="inline-flex items-center gap-2 px-6 py-3 text-base bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg active:scale-95 text-sm">
                                         Save Address
                                     </button>
                                     <button
                                         onClick={() => setShowAddressForm(false)}
-                                        className="btn-secondary text-sm"
+                                        className="inline-flex items-center gap-2 px-6 py-3 text-base bg-gray-700 text-white font-semibold rounded-lg hover:bg-gray-800 transition-all shadow-md hover:shadow-lg active:scale-95 text-sm"
                                     >
                                         Cancel
                                     </button>
@@ -312,7 +312,7 @@ export default function Checkout() {
                         </div>
                         <div className="flex justify-between font-bold text-lg">
                             <span>Total</span>
-                            <span className="gradient-text">₹{totalAmount}</span>
+                            <span className="bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>₹{totalAmount}</span>
                         </div>
                         <div className="flex justify-between text-purple-400">
                             <span>Pay Now ({paymentType === 'full' ? '100%' : '50%'})</span>
@@ -329,7 +329,7 @@ export default function Checkout() {
                     <button
                         onClick={handleCheckout}
                         disabled={loading || !selectedAddressId}
-                        className="btn-primary w-full mt-6 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                        className="inline-flex items-center gap-2 px-8 py-4 text-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg active:scale-95 w-full mt-6 disabled:opacity-50 disabled:cursor-not-allowed justify-center"
                     >
                         {loading ? (
                             <>
