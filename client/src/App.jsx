@@ -58,7 +58,7 @@ function App() {
     return (
         <div className="min-h-screen">
             <Navbar />
-            <main className="pt-20">
+            <main className="pt-5">
                 <Routes>
 
                     <Route path="/" element={<Home />} />

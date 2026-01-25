@@ -43,14 +43,8 @@ const Navbar = () => {
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
                     <Link to="/" className="flex items-center gap-2 group">
-                        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-2 rounded-lg transition group-hover:scale-110">
-                            <Sofa className="text-white" size={24} />
-                        </div>
-                        <div className="flex flex-col">
-                            <span className="font-bold text-xl bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent" style={{ fontFamily: 'Playfair Display, serif', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                                SK Furniture
-                            </span>
-                            <span className="text-xs text-gray-500 hidden sm:block">Premium Collection</span>
+                        <div>
+                            <img src="/home.png" alt="SK Furniture" className="w-25 h-15 object-cover rounded-lg shadow-md" />
                         </div>
                     </Link>
 
