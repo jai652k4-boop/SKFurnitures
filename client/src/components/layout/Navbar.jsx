@@ -64,20 +64,6 @@ const Navbar = () => {
                             Collection
                             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-600 to-indigo-600 group-hover:w-full transition-all"></span>
                         </Link>
-                        <Link
-                            to="/location"
-                            className="text-gray-700 hover:text-gray-700 font-medium transition relative group"
-                        >
-                            About
-                            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-600 to-indigo-600 group-hover:w-full transition-all"></span>
-                        </Link>
-                        <Link
-                            to="/location"
-                            className="text-gray-700 hover:text-gray-700 font-medium transition relative group"
-                        >
-                            Contact
-                            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-600 to-indigo-600 group-hover:w-full transition-all"></span>
-                        </Link>
 
                         {/* Cart Icon with Badge */}
                         <Link to="/cart" className="relative group">
@@ -164,20 +150,6 @@ const Navbar = () => {
                             onClick={() => setIsOpen(false)}
                         >
                             Collection
-                        </Link>
-                        <Link
-                            to="/location"
-                            className="block py-2 text-gray-700 hover:text-gray-700 font-medium transition"
-                            onClick={() => setIsOpen(false)}
-                        >
-                            About
-                        </Link>
-                        <Link
-                            to="/location"
-                            className="block py-2 text-gray-700 hover:text-gray-700 font-medium transition"
-                            onClick={() => setIsOpen(false)}
-                        >
-                            Contact
                         </Link>
                         <Link
                             to="/cart"

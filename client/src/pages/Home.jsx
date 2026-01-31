@@ -3,6 +3,7 @@ import { ArrowRight, Truck, Shield, Award, Sparkles, Package, CreditCard, Clock,
 import { useSelector } from 'react-redux';
 import { useAuth } from '@clerk/clerk-react';
 import { useEffect, useState } from 'react';
+import Footer from '../components/layout/Footer';
 
 const Home = () => {
     const { isSignedIn } = useAuth();
@@ -58,7 +59,7 @@ const Home = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-white mt-2">
             {/* Hero Section - Full screen with modern design */}
             <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-50 via-white to-purple-50">
 
@@ -179,29 +180,32 @@ const Home = () => {
             </section>
 
             {/* CTA Section */}
-            <section className="py-20 px-4 bg-gradient-to-br from-purple-600 to-purple-800 text-white relative overflow-hidden">
+            <section className="py-20 px-4 bg-white relative overflow-hidden border-t border-b border-gray-200">
                 {/* Decorative circles */}
-                <div className="absolute top-10 right-10 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
-                <div className="absolute bottom-10 left-10 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl"></div>
+                <div className="absolute top-10 right-10 w-64 h-64 bg-purple-100/50 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-10 left-10 w-96 h-96 bg-indigo-100/50 rounded-full blur-3xl"></div>
 
                 <div className="max-w-4xl mx-auto text-center relative z-10">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6" style={{ fontFamily: 'Playfair Display, serif' }}>
+                    <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900" style={{ fontFamily: 'Playfair Display, serif' }}>
                         Ready to Elevate Your Home?
                     </h2>
-                    <p className="text-xl mb-8 text-purple-100">
+                    <p className="text-xl mb-8 text-gray-600">
                         Browse our exclusive collection and bring your dream interior to life
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link to="/products" className="inline-flex items-center gap-2 px-8 py-4 text-lg bg-white text-purple-600 hover:bg-gray-100 transition-all shadow-md hover:shadow-lg active:scale-95 rounded-lg group">
+                        <Link to="/products" className="inline-flex items-center gap-2 px-8 py-4 text-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg hover:shadow-xl active:scale-95 rounded-lg group">
                             Start Shopping
                             <ArrowRight className="group-hover:translate-x-1 transition-transform" size={20} />
                         </Link>
-                        <Link to="/location" className="inline-flex items-center gap-2 px-8 py-4 text-lg border-2 border-white text-white hover:bg-white/10 font-semibold rounded-lg transition-all active:scale-95">
+                        <Link to="/location" className="inline-flex items-center gap-2 px-8 py-4 text-lg border-2 border-purple-600 text-purple-600 hover:bg-purple-50 font-semibold rounded-lg transition-all active:scale-95">
                             Visit Our Showroom
                         </Link>
                     </div>
                 </div>
             </section>
+
+            {/* Footer */}
+            <Footer />
         </div>
     );
 }

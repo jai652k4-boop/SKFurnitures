@@ -42,7 +42,7 @@ const MyOrders = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 py-8 px-4">
+        <div className="min-h-screen bg-gray-50 pt-20 py-8 px-4">
             <div className="max-w-5xl mx-auto">
                 {/* Simple Header */}
                 <h1 className="text-2xl font-bold text-gray-900 mb-8 tracking-tight">

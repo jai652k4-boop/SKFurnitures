@@ -1,16 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@clerk/clerk-react';
 import { updateQuantity, removeFromCart, clearCart, calculateTotals } from '../store/slices/cartSlice';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight, ShoppingCart, Tag, Truck, Shield } from 'lucide-react';
 import toast from 'react-hot-toast';
+import ConfirmModal from '../components/common/ConfirmModal';
 
 const Cart = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { isSignedIn } = useAuth();
     const { items, totalAmount, totalQuantity, deliveryCharge, subtotal } = useSelector(state => state.cart);
+    const [showClearModal, setShowClearModal] = useState(false);
 
     useEffect(() => {
         dispatch(calculateTotals());
@@ -27,10 +29,12 @@ const Cart = () => {
     };
 
     const handleClearCart = () => {
-        if (window.confirm('Are you sure you want to clear your cart?')) {
-            dispatch(clearCart());
-            toast.success('Cart cleared');
-        }
+        setShowClearModal(true);
+    };
+
+    const confirmClearCart = () => {
+        dispatch(clearCart());
+        toast.success('Cart cleared');
     };
 
     const handleCheckout = () => {
@@ -66,7 +70,7 @@ const Cart = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 py-8">
+        <div className="min-h-screen bg-gray-50 pt-20 py-8">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
                 <div className="mb-8">
@@ -237,6 +241,15 @@ const Cart = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Clear Cart Confirmation Modal */}
+            <ConfirmModal
+                isOpen={showClearModal}
+                onClose={() => setShowClearModal(false)}
+                onConfirm={confirmClearCart}
+                title="Clear Cart?"
+                message="Are you sure you want to remove all items from your cart? This action cannot be undone."
+            />
         </div>
     );
 }

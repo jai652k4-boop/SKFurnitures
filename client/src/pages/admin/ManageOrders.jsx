@@ -85,14 +85,14 @@ const ManageOrders = () => {
     );
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gray-50 pt-20">
             {/* Header */}
             <div className="bg-white border-b border-gray-200">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                         <div>
                             <h1 className="text-4xl md:text-5xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>
-                                Order <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Management</span>
+                                Order <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent">Management</span>
                             </h1>
                             <p className="text-gray-600 mt-2">Manage and track all customer orders</p>
                         </div>
@@ -134,7 +134,7 @@ const ManageOrders = () => {
                             key={option.value}
                             onClick={() => setFilter(option.value)}
                             className={`px-4 py-2 rounded-lg font-medium transition ${filter === option.value
-                                ? 'bg-secondary text-white'
+                                ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md'
                                 : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
                                 }`}
                         >

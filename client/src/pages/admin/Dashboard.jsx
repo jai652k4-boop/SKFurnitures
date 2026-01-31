@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import LoadingSkeleton from '../../components/common/LoadingSkeleton';
 import StatusBadge from '../../components/common/StatusBadge';
-import { ShoppingBag, Package, DollarSign, TrendingUp, Users, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { ShoppingBag, Package, DollarSign, TrendingUp, Users, Clock, CheckCircle, XCircle, BarChart } from 'lucide-react';
 
 
 const AdminDashboard = () => {
@@ -98,16 +98,25 @@ const AdminDashboard = () => {
             color: 'blue',
             count: analytics?.users?.total || 0,
             countLabel: 'Users'
+        },
+        {
+            title: 'Analytics',
+            description: 'View sales charts & insights',
+            icon: BarChart,
+            link: '/admin/analytics',
+            color: 'orange',
+            count: '📊',
+            countLabel: 'Insights'
         }
     ];
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gray-50 pt-20">
             {/* Header */}
             <div className="bg-white border-b border-gray-200">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                     <h1 className="text-4xl md:text-5xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>
-                        Admin <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Dashboard</span>
+                        Admin <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent">Dashboard</span>
                     </h1>
                     <p className="text-gray-600 mt-2">Monitor your furniture store performance</p>
                 </div>
@@ -137,7 +146,7 @@ const AdminDashboard = () => {
                 </div>
 
                 {/* Quick Links */}
-                <div className="grid md:grid-cols-3 gap-6 mb-8">
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     {quickLinks.map((link, index) => {
                         const Icon = link.icon;
                         return (

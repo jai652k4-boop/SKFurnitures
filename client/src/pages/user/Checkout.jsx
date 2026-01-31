@@ -145,7 +145,7 @@ const Checkout = () => {
     const advanceAmount = Math.ceil(totalAmount / 2);
 
     return (
-        <div className="min-h-screen py-8 px-4">
+        <div className="min-h-screen pt-20 py-8 px-4">
             <div className="max-w-2xl mx-auto">
                 <h1 className="text-3xl font-bold mb-8">Checkout</h1>
 
