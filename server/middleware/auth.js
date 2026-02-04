@@ -77,7 +77,40 @@ export const authorize = (...roles) => {
             });
         }
         next();
-    };
+    }
+};
+
+// Optional authentication - continues even if no auth (for guest users)
+export const optionalAuth = async (req, res, next) => {
+    try {
+        const token = req.headers.authorization?.split(' ')[1];
+
+        if (token) {
+            try {
+                // Verify the Clerk session token
+                const payload = await verifyToken(token, {
+                    secretKey: process.env.CLERK_SECRET_KEY
+                });
+
+                // Get user from database
+                const user = await User.findOne({ clerkId: payload.sub });
+
+                if (user) {
+                    req.user = user;
+                }
+            } catch (verifyError) {
+                // Continue without auth if token is invalid
+                console.log('Optional auth: Invalid token, continuing as guest');
+            }
+        }
+
+        // Continue regardless of authentication status
+        next();
+    } catch (error) {
+        console.error('Optional auth error:', error);
+        // Continue even on error
+        next();
+    }
 };
 
 // Aliases for better readability
@@ -89,4 +122,4 @@ export const requireAdmin = (req, res, next) => {
     });
 };
 
-export default { protect, authorize, requireAuth, requireAdmin };
+export default { protect, authorize, requireAuth, requireAdmin, optionalAuth };

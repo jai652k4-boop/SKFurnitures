@@ -5,3 +5,4 @@ export { default as reviewRoutes } from './review.routes.js';
 export { default as addressRoutes } from './address.routes.js';
 export { default as orderRoutes } from './order.routes.js';
 export { default as paymentRoutes } from './payment.routes.js';
+export { default as chatRoutes } from './chat.routes.js';

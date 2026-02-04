@@ -7,6 +7,7 @@ import { setClerkTokenGetter } from './services/api';
 
 import Navbar from './components/layout/Navbar';
 import ProtectedRoute from './components/layout/ProtectedRoute';
+import ChatWidget from './components/chat/ChatWidget';
 
 import Home from './pages/Home';
 import Products from './pages/Products';
@@ -85,6 +86,9 @@ function App() {
 
                 </Routes>
             </main>
+
+            {/* AI Shopping Assistant */}
+            <ChatWidget />
         </div>
     );
 }

@@ -10,7 +10,7 @@ const ManageProducts = () => {
     const [showModal, setShowModal] = useState(false);
     const [editId, setEditId] = useState(null);
     const [form, setForm] = useState({ name: '', description: '', price: '', category: 'Living Room', stock: '' });
-    const [images, setImages] = useState([null, null, null, null]); // Support up to 4 images
+    const [images, setImages] = useState([null, null, null, null]); 
     const [currentImageUrl, setCurrentImageUrl] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [deleteProductId, setDeleteProductId] = useState(null);
@@ -40,10 +40,9 @@ const ManageProducts = () => {
             formData.append('category', form.category);
             formData.append('stock', form.stock || 0);
 
-            // Add all selected images
             images.forEach((img) => {
                 if (img) {
-                    formData.append('images', img); // multer expects 'images' field
+                    formData.append('images', img); 
                 }
             });
 
@@ -72,7 +71,7 @@ const ManageProducts = () => {
         setEditId(product._id);
         setForm({ name: product.name, description: product.description, price: product.price, category: product.category, stock: product.stock || '' });
         setCurrentImageUrl(product.images?.[0] || null);
-        setImages([null, null, null, null]); // Reset images array
+        setImages([null, null, null, null]);
         setShowModal(true);
     };
 
@@ -106,7 +105,7 @@ const ManageProducts = () => {
 
     return (
         <div className="min-h-screen bg-gray-50 pt-20">
-            {/* Header */}
+
             <div className="bg-white border-b border-gray-200">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">

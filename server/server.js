@@ -11,7 +11,7 @@ import connectDB from './config/db.js';
 import { inngest } from './config/inngest.js';
 import { functions } from './inngest/functions.js';
 
-import { authRoutes, adminRoutes, productRoutes, reviewRoutes, addressRoutes, orderRoutes, paymentRoutes } from './routes/index.js';
+import { authRoutes, adminRoutes, productRoutes, reviewRoutes, addressRoutes, orderRoutes, paymentRoutes, chatRoutes } from './routes/index.js';
 
 import errorHandler from './middleware/errorHandler.js';
 
@@ -42,6 +42,7 @@ app.use('/api/reviews', reviewRoutes);
 app.use('/api/addresses', addressRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/chat', chatRoutes);
 
 app.get('/', (req, res) => {
     res.json({ success: true, message: 'Server is running' });
