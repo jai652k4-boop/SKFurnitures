@@ -99,15 +99,15 @@ const AdminDashboard = () => {
             count: analytics?.users?.total || 0,
             countLabel: 'Users'
         },
-        // {
-        //     title: 'Analytics',
-        //     description: 'View sales charts & insights',
-        //     icon: BarChart,
-        //     link: '/admin/analytics',
-        //     color: 'orange',
-        //     count: '📊',
-        //     countLabel: 'Insights'
-        // }
+        {
+            title: 'Analytics',
+            description: 'View sales charts & insights',
+            icon: BarChart,
+            link: '/admin/analytics',
+            color: 'orange',
+            count: '📊',
+            countLabel: 'Insights'
+        }
     ];
 
     return (
